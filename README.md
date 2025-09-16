@@ -15,10 +15,15 @@ pip install -r requirements
 
 ## .env for backend, add file in the root backend directory
 GOOGLE_CLIENT_ID=GOOGLE_CLIENT_ID
+
 GOOGLE_CLIENT_SECRET=GOOGLE_CLIENT_SECRET
+
 MYSQL_HOST=localhost
+
 MYSQL_USER=MYSQL_USER
+
 MYSQL_PASSWORD=MYSQL_PASSWORD
+
 MYSQL_DB=MYSQL_DB_NAME
 
 ## .env for the front end, add file in the root of frontend directory
