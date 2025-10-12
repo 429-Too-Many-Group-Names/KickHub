@@ -20,6 +20,5 @@ from django.urls import path, include
 urlpatterns = [
     path("accounts/", include("allauth.urls")),
     path("", include("kickhub.urls")),
-    path("kickhub/", include("kickhub.urls")),
     path('admin/', admin.site.urls),
 ]

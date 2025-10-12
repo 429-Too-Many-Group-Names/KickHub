@@ -1,11 +1,27 @@
 {% extends "base.html" %}
+{% load static %}
+
 
 {% block title %}Greetings{% endblock %}
 
 {% block content %}
-    <h1>{{ page_title }}</h1>
-    <p>{{ message }}</p>
-    {% if user.is_authenticated %}
-        <p>Welcome, {{ user.first_name }} {{ user.last_name }} ({{ user.email }})!</p>
-    {% endif %}
+<h1>{{ page_title }}</h1>
+<p>{{ message }}</p>
+<h2>Items</h2>
+<ul>
+    {% for item in items %}
+    <li>
+        <form method="post" action="{% url 'add_to_cart' %}" class="add-to-cart-form">
+            {% csrf_token %}
+            {{ item.description }} - ${{ item.price }} ({{ item.quantity }} in stock, SKU: {{ item.sku }})
+            <input type="hidden" name="item_id" value="{{ item.id }}">
+            <input type="number" name="quantity" value="1" min="1" max="{{ item.quantity }}">
+            <button type="submit">Add to Cart</button>
+        </form>
+    </li>
+    {% empty %}
+    <li>No items available.</li>
+    {% endfor %}
+</ul>
 {% endblock %}
+
