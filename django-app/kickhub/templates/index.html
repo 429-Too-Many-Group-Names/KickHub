@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Greetings{% endblock %}
+
+{% block content %}
+    <h1>{{ page_title }}</h1>
+    <p>{{ message }}</p>
+    {% if user.is_authenticated %}
+        <p>Welcome, {{ user.first_name }} {{ user.last_name }} ({{ user.email }})!</p>
+    {% endif %}
+{% endblock %}
