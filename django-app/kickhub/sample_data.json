@@ -1,0 +1,434 @@
+[
+  {
+    "model": "kickhub.item",
+    "pk": 1,
+    "fields": {
+      "description": "Classic running sneaker.",
+      "brand": "Nike",
+      "model": "Air Max 90",
+      "price": 120.00,
+      "color": "White/Red",
+      "releaseDate": "2025-01-01"
+    }
+  },
+  {
+    "model": "kickhub.item",
+    "pk": 2,
+    "fields": {
+      "description": "High-top basketball shoe.",
+      "brand": "Adidas",
+      "model": "Forum Mid",
+      "price": 110.00,
+      "color": "Blue/White",
+      "releaseDate": "2025-02-01"
+    }
+  },
+  {
+    "model": "kickhub.item",
+    "pk": 3,
+    "fields": {
+      "description": "Lightweight trainer.",
+      "brand": "Asics",
+      "model": "Gel-Kayano",
+      "price": 130.00,
+      "color": "Black/Green",
+      "releaseDate": "2025-03-01"
+    }
+  },
+  {
+    "model": "kickhub.item",
+    "pk": 4,
+    "fields": {
+      "description": "Retro skate shoe.",
+      "brand": "Vans",
+      "model": "Old Skool",
+      "price": 70.00,
+      "color": "Black/White",
+      "releaseDate": "2025-04-01"
+    }
+  },
+  {
+    "model": "kickhub.item",
+    "pk": 5,
+    "fields": {
+      "description": "Performance running shoe.",
+      "brand": "Brooks",
+      "model": "Ghost 15",
+      "price": 140.00,
+      "color": "Grey/Blue",
+      "releaseDate": "2025-05-01"
+    }
+  },
+  {
+    "model": "kickhub.item",
+    "pk": 6,
+    "fields": {
+      "description": "Minimalist trail runner.",
+      "brand": "Merrell",
+      "model": "Trail Glove 7",
+      "price": 100.00,
+      "color": "Green/Black",
+      "releaseDate": "2025-06-01"
+    }
+  },
+  {
+    "model": "kickhub.item",
+    "pk": 7,
+    "fields": {
+      "description": "Classic tennis shoe.",
+      "brand": "Converse",
+      "model": "Chuck Taylor All Star",
+      "price": 60.00,
+      "color": "White",
+      "releaseDate": "2025-07-01"
+    }
+  },
+  {
+    "model": "kickhub.item",
+    "pk": 8,
+    "fields": {
+      "description": "Modern basketball shoe.",
+      "brand": "Puma",
+      "model": "Clyde All-Pro",
+      "price": 125.00,
+      "color": "Red/Black",
+      "releaseDate": "2025-08-01"
+    }
+  },
+  {
+    "model": "kickhub.item",
+    "pk": 9,
+    "fields": {
+      "description": "Premium lifestyle sneaker.",
+      "brand": "New Balance",
+      "model": "990v5",
+      "price": 175.00,
+      "color": "Grey",
+      "releaseDate": "2025-09-01"
+    }
+  },
+  {
+    "model": "kickhub.item",
+    "pk": 10,
+    "fields": {
+      "description": "All-weather hiking boot.",
+      "brand": "Salomon",
+      "model": "X Ultra 4",
+      "price": 160.00,
+      "color": "Brown/Orange",
+      "releaseDate": "2025-10-01"
+    }
+  },
+  {
+    "model": "kickhub.item",
+    "pk": 11,
+    "fields": {
+      "description": "Slip-on casual shoe.",
+      "brand": "Skechers",
+      "model": "Go Walk 6",
+      "price": 80.00,
+      "color": "Navy",
+      "releaseDate": "2025-11-01"
+    }
+  },
+  {
+    "model": "kickhub.item",
+    "pk": 12,
+    "fields": {
+      "description": "Classic soccer cleat.",
+      "brand": "Umbro",
+      "model": "Speciali Eternal",
+      "price": 90.00,
+      "color": "Black/White",
+      "releaseDate": "2025-12-01"
+    }
+  },
+  {
+    "model": "kickhub.item",
+    "pk": 13,
+    "fields": {
+      "description": "Trail running shoe.",
+      "brand": "Hoka",
+      "model": "Speedgoat 5",
+      "price": 150.00,
+      "color": "Blue/Yellow",
+      "releaseDate": "2026-01-01"
+    }
+  },
+  {
+    "model": "kickhub.item",
+    "pk": 14,
+    "fields": {
+      "description": "Lightweight cross-trainer.",
+      "brand": "Reebok",
+      "model": "Nano X3",
+      "price": 135.00,
+      "color": "Black/Red",
+      "releaseDate": "2026-02-01"
+    }
+  },
+  {
+    "model": "kickhub.item",
+    "pk": 15,
+    "fields": {
+      "description": "Classic slip-on.",
+      "brand": "Toms",
+      "model": "Alpargata",
+      "price": 55.00,
+      "color": "Grey",
+      "releaseDate": "2026-03-01"
+    }
+  },
+  {
+    "model": "kickhub.item",
+    "pk": 16,
+    "fields": {
+      "description": "Premium dress shoe.",
+      "brand": "Clarks",
+      "model": "Un Tailor Tie",
+      "price": 120.00,
+      "color": "Brown",
+      "releaseDate": "2026-04-01"
+    }
+  },
+  {
+    "model": "kickhub.item",
+    "pk": 17,
+    "fields": {
+      "description": "Waterproof winter boot.",
+      "brand": "Columbia",
+      "model": "Bugaboot III",
+      "price": 130.00,
+      "color": "Black/Grey",
+      "releaseDate": "2026-05-01"
+    }
+  },
+  {
+    "model": "kickhub.item",
+    "pk": 18,
+    "fields": {
+      "description": "Classic running flat.",
+      "brand": "Saucony",
+      "model": "Kinvara 13",
+      "price": 115.00,
+      "color": "Orange/White",
+      "releaseDate": "2026-06-01"
+    }
+  },
+  {
+    "model": "kickhub.item",
+    "pk": 19,
+    "fields": {
+      "description": "All-terrain sandal.",
+      "brand": "Teva",
+      "model": "Hurricane XLT2",
+      "price": 75.00,
+      "color": "Black/Blue",
+      "releaseDate": "2026-07-01"
+    }
+  },
+  {
+    "model": "kickhub.item",
+    "pk": 20,
+    "fields": {
+      "description": "Classic moccasin.",
+      "brand": "Minnetonka",
+      "model": "Double Deerskin",
+      "price": 85.00,
+      "color": "Tan",
+      "releaseDate": "2026-08-01"
+    }
+  },
+  {
+    "model": "kickhub.item",
+    "pk": 21,
+    "fields": {
+      "description": "Performance walking shoe.",
+      "brand": "New Balance",
+      "model": "WW928",
+      "price": 140.00,
+      "color": "White/Blue",
+      "releaseDate": "2026-09-01"
+    }
+  },
+  {
+    "model": "kickhub.item",
+    "pk": 22,
+    "fields": {
+      "description": "Classic boat shoe.",
+      "brand": "Sperry",
+      "model": "Authentic Original",
+      "price": 95.00,
+      "color": "Navy/Brown",
+      "releaseDate": "2026-10-01"
+    }
+  },
+  {
+    "model": "kickhub.item",
+    "pk": 23,
+    "fields": {
+      "description": "Premium golf shoe.",
+      "brand": "FootJoy",
+      "model": "Pro SL",
+      "price": 200.00,
+      "color": "White/Grey",
+      "releaseDate": "2026-11-01"
+    }
+  },
+  {
+    "model": "kickhub.item",
+    "pk": 24,
+    "fields": {
+      "description": "Classic rain boot.",
+      "brand": "Hunter",
+      "model": "Original Tall",
+      "price": 150.00,
+      "color": "Green",
+      "releaseDate": "2026-12-01"
+    }
+  },
+  {
+    "model": "kickhub.item",
+    "pk": 25,
+    "fields": {
+      "description": "Modern skate shoe.",
+      "brand": "DC Shoes",
+      "model": "Court Graffik",
+      "price": 65.00,
+      "color": "Black/Red",
+      "releaseDate": "2027-01-01"
+    }
+  },
+  {
+    "model": "kickhub.item",
+    "pk": 26,
+    "fields": {
+      "description": "Classic clog.",
+      "brand": "Crocs",
+      "model": "Classic Clog",
+      "price": 50.00,
+      "color": "Purple",
+      "releaseDate": "2027-02-01"
+    }
+  },
+  {
+    "model": "kickhub.item",
+    "pk": 27,
+    "fields": {
+      "description": "Premium trail boot.",
+      "brand": "Danner",
+      "model": "Mountain Light",
+      "price": 380.00,
+      "color": "Brown",
+      "releaseDate": "2027-03-01"
+    }
+  },
+  {
+    "model": "kickhub.item",
+    "pk": 28,
+    "fields": {
+      "description": "Classic espadrille.",
+      "brand": "Soludos",
+      "model": "Original Dali",
+      "price": 65.00,
+      "color": "Beige",
+      "releaseDate": "2027-04-01"
+    }
+  },
+  {
+    "model": "kickhub.item",
+    "pk": 29,
+    "fields": {
+      "description": "Modern running shoe.",
+      "brand": "On",
+      "model": "Cloudswift",
+      "price": 160.00,
+      "color": "White/Black",
+      "releaseDate": "2027-05-01"
+    }
+  },
+  {
+    "model": "kickhub.item",
+    "pk": 30,
+    "fields": {
+      "description": "Classic slip-on sneaker.",
+      "brand": "Keds",
+      "model": "Champion",
+      "price": 55.00,
+      "color": "White",
+      "releaseDate": "2027-06-01"
+    }
+  },
+  {
+    "model": "kickhub.item",
+    "pk": 5,
+    "fields": {
+      "description": "Classic canvas sneaker.",
+      "brand": "Converse",
+      "model": "Chuck Taylor",
+      "price": 60.00,
+      "color": "Red",
+      "releaseDate": "2025-05-01"
+    }
+  },
+  {
+    "model": "kickhub.item",
+    "pk": 6,
+    "fields": {
+      "description": "Modern running shoe.",
+      "brand": "New Balance",
+      "model": "990v5",
+      "price": 175.00,
+      "color": "Grey",
+      "releaseDate": "2025-06-01"
+    }
+  },
+  {
+    "model": "kickhub.item",
+    "pk": 7,
+    "fields": {
+      "description": "Performance basketball shoe.",
+      "brand": "Puma",
+      "model": "Clyde All-Pro",
+      "price": 140.00,
+      "color": "White/Blue",
+      "releaseDate": "2025-07-01"
+    }
+  },
+  {
+    "model": "kickhub.item",
+    "pk": 8,
+    "fields": {
+      "description": "Trail running shoe.",
+      "brand": "Salomon",
+      "model": "Speedcross 5",
+      "price": 130.00,
+      "color": "Black/Red",
+      "releaseDate": "2025-08-01"
+    }
+  },
+  {
+    "model": "kickhub.item",
+    "pk": 9,
+    "fields": {
+      "description": "Minimalist sneaker.",
+      "brand": "Reebok",
+      "model": "Classic Leather",
+      "price": 75.00,
+      "color": "White",
+      "releaseDate": "2025-09-01"
+    }
+  },
+  {
+    "model": "kickhub.item",
+    "pk": 10,
+    "fields": {
+      "description": "Chunky dad shoe.",
+      "brand": "Fila",
+      "model": "Disruptor II",
+      "price": 65.00,
+      "color": "White/Pink",
+      "releaseDate": "2025-10-01"
+    }
+  }
+]

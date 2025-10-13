@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
       .then(response => response.json())
       .then(data => {
         if (data.success) {
-          alert(data.message); // Or update the cart count, etc.
+          console.log(data.message); // Or update the cart count, etc.
         }
       });
     });

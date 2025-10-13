@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from kickhub.models import Item, ShoppingCart, CartItem
+from kickhub.models import Item, ShoppingCart, CartItem, Sizes
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
@@ -10,14 +10,24 @@ from django.http import JsonResponse
 
 def index(request):
   items = Item.objects.all()
+  items_with_sizes = []
+  
+  for item in items:
+    sizes = Sizes.objects.filter(item=item, quantity__gt=0)
+    items_with_sizes.append({
+      'item': item,
+      'sizes': sizes
+    })
+
+    
   context = {
     'page_title': 'Welcome!',
     'message': 'This is a dynamic message from our Django view.',
-    'items': items,
+    'items': items_with_sizes,
   }
   return render(request, 'index.html', context)
 
-# @login_required
+
 def profile(request):
   user = request.user
   if not request.user.is_authenticated:
@@ -26,23 +36,20 @@ def profile(request):
 
 def user_cart(request):
   user = request.user
-  cart = ShoppingCart.objects.get(user=user)
+  if not user.is_authenticated:
+    return redirect('index')
+  
+  cart, created = ShoppingCart.objects.get_or_create(user=user)
   cart_items = CartItem.objects.filter(cart=cart)
   
   return render(request, 'cart.html', {"user": user, "cart": cart, "cart_items": cart_items})
-
   
-def add_item(request):
-    item = Item.objects.create(
-        description="Sample Item",
-        price=19.99,
-        quantity=50,
-        sku="SKU1002"
-    )
-    return HttpResponse(f"Item created with ID {item.id}")
   
-@login_required
 def add_to_cart(request):
+  user = request.user
+  if not user.is_authenticated:
+    return redirect('index')
+  else:
     if request.method == "POST":
         item_id = request.POST.get("item_id")
         quantity = int(request.POST.get("quantity", 1))
@@ -64,4 +71,6 @@ def add_to_cart(request):
     else:
       return redirect('index')
       
+      
+  
       

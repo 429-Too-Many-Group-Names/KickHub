@@ -9,7 +9,7 @@
 <ul>
   {% for cart_item in cart_items %}
     <li>
-      {{ cart_item.item.description }} - Quantity: {{ cart_item.quantity }} - Price: ${{ cart_item.item.price }}
+      {{ cart_item.item.description }} - Price: ${{ cart_item.item.price }}
     </li>
   {% empty %}
     <li>Your cart is empty.</li>
