@@ -1,8 +1,4 @@
 # Django App Setup Guide
----
-
-
-
 ## Prerequisites
 
 - Python 3.10+ (https://www.python.org/downloads/)
@@ -148,11 +144,28 @@ python manage.py runserver
 - Apply migrations: `python manage.py migrate`
 - Create superuser: `python manage.py createsuperuser`
 - Run server: `python manage.py runserver`
-
 ---
 
+## 13. Loading JSON Data into Django
 
-## 13. Stripe API Integration (Coming Soon)
+To load JSON fixture files (such as sample data) into your Django database, use the `loaddata` management command. This is useful for populating your database with initial or sample data.
+
+### Example
+
+Suppose you have a file named `sample_data.json` in your app directory (e.g., `kickhub/sample_data.json`). Run:
+
+```bash
+python manage.py loaddata kickhub/sample_data.json
+```
+
+You can load multiple files or different fixtures as needed. Make sure your JSON files are formatted as Django fixtures.
+
+**Django Fixture Documentation:**
+- [Django Fixtures and loaddata](https://docs.djangoproject.com/en/stable/howto/initial-data/)
+
+
+
+## 14. Stripe API Integration (Coming Soon)
 
 Stripe API integration for payment processing will be added soon. Stay tuned for updates and setup instructions!
 
@@ -165,7 +178,7 @@ This guide will help you set up and run the Django app on Windows, Linux, and ma
 
 ---
 
-## 14. Further Reading & Documentation
+## 15. Further Reading & Documentation
 
 - [Django Documentation (latest)](https://docs.djangoproject.com/)
 - [Django Admin Documentation](https://docs.djangoproject.com/en/stable/ref/contrib/admin/)
