@@ -1,0 +1,32 @@
+# Version control
+.git
+.gitignore
+
+# Python virtual environment
+venv/
+.venv/
+env/
+
+# Python caches and compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Local database file
+db.sqlite3
+
+# IDE and editor configuration
+.vscode/
+.idea/
+*.swp
+
+# Secrets and environment variables
+.env
+*.env
+
+# Local logs and temporary files
+*.log
+
+# The ignore file itself can be ignored
+.dockerignore

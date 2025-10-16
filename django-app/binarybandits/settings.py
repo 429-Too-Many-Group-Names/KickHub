@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-55849)+t!satvav1#%xc9zrk9$ac-@kfush$56$_v(o^ro_#@!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 AUTH_USER_MODEL = 'kickhub.CustomUser'
 
