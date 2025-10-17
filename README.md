@@ -178,7 +178,37 @@ This guide will help you set up and run the Django app on Windows, Linux, and ma
 
 ---
 
-## 15. Further Reading & Documentation
+## 15. Everything in Docker
+
+This project is intended to be run entirely inside Docker. Use the commands below from your host shell; they will execute inside the running container named `superuser` (replace `superuser` with your service/container name if different).
+
+1. Start the containers (foreground, rebuild if needed):
+
+```bash
+docker compose up --watch
+or
+docker compose up --build --watch
+```
+
+2. In a new terminal, run management commands inside the container. Examples:
+
+```bash
+
+# create a superuser (interactive)
+docker exec -it < container_ID or name > python manage.py createsuperuser
+
+# load JSON fixtures
+docker exec superuser python manage.py loaddata kickhub/sample_data.json
+
+# open a shell inside the container
+docker exec -it < container name or id > bash
+```
+
+Notes:
+- If your compose service/container has a different name, replace `superuser` with the actual container name shown by `docker ps`.
+- You can run multiple Django commands in one exec using `sh -c "cmd1 && cmd2"`.
+
+## 16. Further Reading & Documentation
 
 - [Django Documentation (latest)](https://docs.djangoproject.com/)
 - [Django Admin Documentation](https://docs.djangoproject.com/en/stable/ref/contrib/admin/)
@@ -186,4 +216,8 @@ This guide will help you set up and run the Django app on Windows, Linux, and ma
 - [Django Database Setup](https://docs.djangoproject.com/en/stable/topics/db/)
 - [Django Authentication](https://docs.djangoproject.com/en/stable/topics/auth/)
 - [Django Allauth (Social Auth)](https://django-allauth.readthedocs.io/en/latest/)
+- [Docker](https://www.docker.com/)
+
+
+
 
