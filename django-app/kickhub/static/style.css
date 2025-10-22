@@ -1,3 +1,130 @@
-/* body {
-    background-color: hotpink;
-} */
+body {
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to bottom, #ededed, #e0d8c8);
+    color: black;
+    font-family: sans-serif;
+}
+
+.center-rectangle {
+    width: 1200px;
+    height: 600px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    text-align: center;
+    padding: 20px;
+    border-radius: 15px;
+    box-sizing: border-box;
+
+    overflow-y: auto;
+}
+
+/* Navigation Bar */
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: right;
+    background-color: #ecdec9;
+    padding: 10px 30px;
+    color: black;
+}
+
+.site-name {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 0px;
+}
+
+.nav-button {
+    display: inline-block;
+    width: 100px;
+    text-align: center;
+    background: none;
+    color: black;
+    border: none;
+    font-size: 16px;
+    padding: 10px 0;
+    cursor: pointer;
+    transition: bakcground-color 0.3s ease;
+}
+
+.nav-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.nav-links a {
+    color: black;
+    text-decoration: none;
+}
+
+/* Item Cards */
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+}
+
+.card {
+    width: 250px;
+    text-align: center;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.2);
+    transition: transform 0.3s;
+}
+
+.card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card h3 {
+    margin-bottom: 10px;
+}
+
+.card p {
+    margin: 0 0 15px;
+    font-size: 16px;
+    color: #444;
+}
+
+.card select {
+    margin-bottom: 15px;
+    width: 100%;
+    padding: 5px;
+}
+
+.card button {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.card button:hover {
+    background-color: #555;
+}
