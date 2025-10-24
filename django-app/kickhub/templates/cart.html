@@ -6,13 +6,22 @@
 <h1>{{ page_title }}</h1>
 <p>{{ message }}</p>
 <h2>Your Cart</h2>
-<ul>
+
+<div class="card-container">
   {% for cart_item in cart_items %}
-    <li>
-      {{ cart_item.item.description }} - Price: ${{ cart_item.item.price }}
-    </li>
+
+    <div class="card">
+      <img
+        src="https://via.placeholder.com/250x150?text=Coming+Soon"
+        alt="Placeholder"
+        class="card-img">
+
+      <h3>{{ cart_item.item.description }}</h3>
+      <p><strong>${{ cart_item.item.price }}</strong></p>
+    </div>
   {% empty %}
     <li>Your cart is empty.</li>
   {% endfor %}
-</ul>
+
+</div>
 {% endblock %}
