@@ -51,26 +51,22 @@ def add_to_cart(request):
     return redirect('index')
   else:
     if request.method == "POST":
-        item_id = request.POST.get("item_id")
-        quantity = int(request.POST.get("quantity", 1))
-        item = Item.objects.get(id=item_id)
-        user = request.user
+      item_id = request.POST.get("item_id")
+      quantity = int(request.POST.get("quantity", 1))
+      item = Item.objects.get(id=item_id)
+      user = request.user
 
 
-        cart, created = ShoppingCart.objects.get_or_create(user=user)
+      cart, created = ShoppingCart.objects.get_or_create(user=user)
 
 
-        cart_item, created = CartItem.objects.get_or_create(cart=cart, item=item, defaults={'quantity': quantity})
-        cart_item.quantity += quantity
-        cart_item.save()
+      cart_item, created = CartItem.objects.get_or_create(cart=cart, item=item, defaults={'quantity': quantity})
+      cart_item.quantity += quantity
+      cart_item.save()
       
 
-    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-      return JsonResponse({'success': True, 'message': 'Added to cart!'})
-      return redirect(request.META.get('HTTP_REFERER', 'index'))
-    else:
-      return redirect('index')
-      
-      
-  
-      
+  if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+    return JsonResponse({'success': True, 'message': 'Added to cart!'})
+    return redirect(request.META.get('HTTP_REFERER', 'index'))
+  else:
+    return redirect('index')
