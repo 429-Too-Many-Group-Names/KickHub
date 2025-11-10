@@ -7,8 +7,6 @@
     <meta charset="UTF-8">
     <title>{% block title %}KickHub{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'style.css' %}">
-
-
 </head>
 
 <body>
@@ -20,6 +18,24 @@
                 {% if user.is_authenticated %}
                 <li><a href="{% url 'profile' %}" class="nav-button">Profile</a></li>
                 <li><a href="{% url 'cart' %}" class="nav-button">Cart</a></li>
+
+                <!-- ADDED: Search bar placed after Cart (right end of menu) -->
+                <li>
+                    <form action="{% url 'index' %}" method="get" role="search" style="display:flex;align-items:center;gap:.5rem;margin-left:10px;">
+                        <input
+                            type="search"
+                            name="q"
+                            id="searchInput"
+                            value="{{ q|default:'' }}"
+                            placeholder="Search shoes..."
+                            aria-label="Search"
+                            autocomplete="off"
+                            style="padding:.4rem .6rem;border:1px solid #ccc;border-radius:6px;min-width:180px;"
+                        />
+                        <button type="submit" class="nav-button" style="padding:.4rem .6rem;border-radius:6px;">Search</button>
+                    </form>
+                </li>
+
                 <form action="{% url 'account_logout' %}" method="post" style="display:inline;">
                     {% csrf_token %}
                     <button type="submit">Logout</button>
@@ -37,6 +53,46 @@
 </body>
 {% block scripts %}
 <script src="{% static 'main.js' %}"></script>
+
+<!-- ADDED: Client-side live filtering (works on pages with product cards) -->
+<script>
+(function () {
+  const input = document.getElementById('searchInput');
+  const noResults = document.getElementById('noResults');
+  if (!input) return;
+
+  function getCards() {
+    return Array.from(document.querySelectorAll('.card-container > .card'));
+  }
+
+  function buildIndex(card) {
+    if (card.dataset.searchIndex) return card.dataset.searchIndex;
+    const blob = (card.textContent || '').toLowerCase().replace(/\s+/g, ' ').trim();
+    card.dataset.searchIndex = blob;
+    return blob;
+  }
+
+  function matches(card, query) {
+    const q = query.toLowerCase().trim();
+    if (!q) return true;
+    return buildIndex(card).includes(q);
+  }
+
+  function filterCards(query) {
+    const cards = getCards();
+    let shown = 0;
+    cards.forEach(card => {
+      const show = matches(card, query);
+      card.style.display = show ? '' : 'none';
+      if (show) shown++;
+    });
+    if (noResults) noResults.style.display = shown === 0 ? '' : 'none';
+  }
+
+  input.addEventListener('input', () => filterCards(input.value));
+  if (input.value) filterCards(input.value);
+})();
+</script>
 {% endblock %}
 
 </html>
