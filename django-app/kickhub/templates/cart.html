@@ -17,11 +17,27 @@
         class="card-img">
 
       <h3>{{ cart_item.item.description }}</h3>
-      <p><strong>${{ cart_item.item.price }}</strong></p>
+      <p><strong>${{ cart_item.item.price }} ({{ cart_item.quantity }})</strong></p>
+      <div class="cart-actions">
+        <form action="{% url 'remove_from_cart' cart_item.item.id %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="remove-btn">Remove</button>
+        </form>
+
+        <form action="{% url 'decrease_cart_item' cart_item.item.id %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="decrease-btn">-</button>
+        </form>
+      </div>
     </div>
   {% empty %}
     <li>Your cart is empty.</li>
   {% endfor %}
-
-</div>
+{% if cart_items %}
+  <div class="cart-summary">
+    <p><strong>Subtotal:</strong> ${{ subtotal|floatformat:2 }}</p>
+    <p><strong>Tax (8.25%):</strong> ${{ tax|floatformat:2 }}</p>
+    <p><strong>Total:</strong> ${{ total|floatformat:2 }}</p>
+  </div>
+{% endif %}
 {% endblock %}

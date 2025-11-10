@@ -128,3 +128,30 @@ body {
 .card button:hover {
     background-color: #555;
 }
+
+.cart-actions {
+  display: flex;
+  gap: 10px;           /* space between buttons */
+  justify-content: center; /* center horizontally, optional */
+}
+
+.cart-actions form {
+  margin: 0;
+}
+
+.remove-btn, .decrease-btn {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.remove-btn {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.decrease-btn {
+  background-color: #3498db;
+  color: white;
+}
