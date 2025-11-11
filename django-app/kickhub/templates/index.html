@@ -1,94 +1,30 @@
 {% extends "base.html" %}
 {% load static %}
 
+
 {% block title %}KickHub{% endblock %}
 
 {% block content %}
 
 <h2>Catalog</h2>
 
-<<<<<<< HEAD
-<!-- Empty-state helper for client-side filtering -->
-<div id="noResults" style="display:none;margin:8px 0 16px;font-style:italic;">No matching items found.</div>
-
-<!-- Filter + Sort toolbar -->
-<div id="catalogControls" style="display:flex;gap:12px;align-items:center;margin:8px 0 18px;flex-wrap:wrap;">
-  <label for="sortSelect" style="font-weight:600;">Sort:</label>
-  <select id="sortSelect" style="padding:.4rem .6rem;border:1px solid #ccc;border-radius:6px;">
-    <option value="">Default</option>
-    <option value="price-asc">Price: Low to High</option>
-    <option value="price-desc">Price: High to Low</option>
-  </select>
-
-  <label style="display:flex;align-items:center;gap:6px;margin-left:8px;">
-    <input type="checkbox" id="filterOnSale">
-    On sale
-  </label>
-
-  <label style="display:flex;align-items:center;gap:6px;">
-    <input type="checkbox" id="filterAvailable">
-    Available (in stock)
-  </label>
-=======
 <div class="card-container">
-    {% for entry in items %}
-    <div class="card">
-        {% if entry.item.image %}
-        <img src="{{ entry.item.image.url }}" alt="{{ entry.item.name }}" class="card-img">
-        {% else %}
-        <img src="{% static 'images/default_placeholder.png' %}" alt="No image available" class="card-img">
-        {% endif %}
-        <form method="post" action="{% url 'add_to_cart' %}" class="add-to-cart-form">
-            {% csrf_token %}
-            <h3>{{ entry.item.description }}</h3>
-            <p><strong>${{ entry.item.price }}</strong></p>
-            <input type="hidden" name="item_id" value="{{ entry.item.id }}">
-
-            {% if entry.sizes %}
-            <label for="size-{{ entry.item.id }}">Size:</label>
-
-            <select name="size_id" id="size-{{ entry.item.id }}">
-                {% for size in entry.sizes %}
-                <option value="{{ size.id }}">
-                    {{ size.size }} ({{ size.quantity }} available)
-                </option>
-                {% endfor %}
-            </select>
-            <button type="submit">Add to Cart</button>
-            {% else %}
-            <span>No sizes available</span>
-            {% endif %}
-        </form>
-    </div>
-    {% empty %}
-    <p>No items available.</p>
-<<<<<<< HEAD
-<<<<<<< HEAD
-  {% endfor %}
-</div>
-=======
-    {% endfor %}
->>>>>>> origin/main
-</div>
-
-<div class="card-container">
-<<<<<<< HEAD
   {% for entry in items %}
-  <!-- data-* attributes power the client-side controls -->
-  <div class="card"
-       data-price="{{ entry.item.price }}"
-       data-available="{% if entry.sizes and entry.sizes|length > 0 %}true{% else %}false{% endif %}"
-       data-onsale="{% if entry.item.on_sale %}true{% else %}false{% endif %}">
-    <img
-      src="https://via.placeholder.com/250x150?text=Coming+Soon"
-      alt="Placeholder"
-      class="card-img">
+  <div class="card">
+    <!-- Clickable link to the detail page -->
+    <a href="{% url 'item_detail' entry.item.slug %}">
+      {% if entry.item.image %}
+        <img src="{{ entry.item.image.url }}" alt="{{ entry.item.name }}" class="card-img">
+      {% else %}
+        <img src="{% static 'images/default_placeholder.png' %}" alt="No image available" class="card-img">
+      {% endif %}
+      <h3>{{ entry.item.description }}</h3>
+    </a>
+
+    <p><strong>${{ entry.item.price }}</strong></p>
 
     <form method="post" action="{% url 'add_to_cart' %}" class="add-to-cart-form">
       {% csrf_token %}
-      <h3>{{ entry.item.description }}</h3>
-      <p><strong>${{ entry.item.price }}</strong></p>
-
       <input type="hidden" name="item_id" value="{{ entry.item.id }}">
 
       {% if entry.sizes %}
@@ -107,144 +43,7 @@
     </form>
   </div>
   {% empty %}
-  <p>No items available.</p>
+    <p>No items available.</p>
   {% endfor %}
 </div>
-
 {% endblock %}
-
-{% block scripts %}
-{{ block.super }}
-<script>
-/*
-  Combined search + sort + filter logic.
-  - Recomputes visibility from scratch each time (fixes “uncheck On sale doesn’t revert”).
-  - Sorting reorders the DOM but doesn’t force-show hidden (non-matching) items.
-*/
-(function () {
-  const container   = document.querySelector('.card-container');
-  if (!container) return;
-
-  const sortSelect  = document.getElementById('sortSelect');
-  const cbOnSale    = document.getElementById('filterOnSale');
-  const cbAvailable = document.getElementById('filterAvailable');
-  const noResults   = document.getElementById('noResults');
-  const searchInput = document.getElementById('searchInput'); // navbar search
-
-  function getCards() {
-    return Array.from(container.querySelectorAll(':scope > .card'));
-  }
-
-  function numericPrice(card) {
-    const p = parseFloat(card.getAttribute('data-price') || '0');
-    return isNaN(p) ? 0 : p;
-  }
-
-  // Cache a lowercase text blob per card for search
-  function searchIndex(card) {
-    if (card.dataset.searchIndex) return card.dataset.searchIndex;
-    const blob = (card.textContent || '').toLowerCase().replace(/\s+/g, ' ').trim();
-    card.dataset.searchIndex = blob;
-    return blob;
-  }
-
-  function matchesSearch(card) {
-    if (!searchInput) return true;
-    const q = (searchInput.value || '').toLowerCase().trim();
-    if (!q) return true;
-    return searchIndex(card).includes(q);
-  }
-
-  function passesAvailability(card) {
-    if (!cbAvailable || !cbAvailable.checked) return true;
-    return (card.getAttribute('data-available') || '').toLowerCase() === 'true';
-  }
-
-  function passesOnSale(card) {
-    if (!cbOnSale || !cbOnSale.checked) return true;
-    return (card.getAttribute('data-onsale') || '').toLowerCase() === 'true';
-  }
-
-  function applyFiltersAndSearch() {
-    const cards = getCards();
-    let visibleCount = 0;
-    cards.forEach(card => {
-      const show = matchesSearch(card) && passesOnSale(card) && passesAvailability(card);
-      card.style.display = show ? '' : 'none';
-      if (show) visibleCount++;
-    });
-    if (noResults) noResults.style.display = visibleCount === 0 ? '' : 'none';
-  }
-
-  function applySortOnly() {
-    const mode = sortSelect ? sortSelect.value : '';
-    if (!mode) return; // default order
-
-    const cards = getCards();
-    cards.sort((a, b) => {
-      const pa = numericPrice(a), pb = numericPrice(b);
-      return mode === 'price-asc' ? pa - pb : pb - pa; // 'price-desc' = high→low
-    });
-    const frag = document.createDocumentFragment();
-    cards.forEach(c => frag.appendChild(c));
-    container.appendChild(frag);
-  }
-
-  function applyAll() {
-    applySortOnly();
-    applyFiltersAndSearch();
-  }
-
-  // Event wiring
-  sortSelect  && sortSelect.addEventListener('change', applyAll);
-  cbOnSale    && cbOnSale.addEventListener('change', applyAll);
-  cbAvailable && cbAvailable.addEventListener('change', applyAll);
-  searchInput && searchInput.addEventListener('input', applyAll);
-
-  // Initial pass
-  applyAll();
-})();
-</script>
->>>>>>> searchBar
-{% endblock %}
-=======
-    {% endfor %}
-</div>
-{% endblock %}
->>>>>>> parent of 12cf567 (feat: add slug field and item detail page for individual product views)
-=======
-    {% for entry in items %}
-    <div class="card">
-        {% if entry.item.image %}
-        <img src="{{ entry.item.image.url }}" alt="{{ entry.item.name }}" class="card-img">
-        {% else %}
-        <img src="{% static 'images/default_placeholder.png' %}" alt="No image available" class="card-img">
-        {% endif %}
-        <form method="post" action="{% url 'add_to_cart' %}" class="add-to-cart-form">
-            {% csrf_token %}
-            <h3>{{ entry.item.description }}</h3>
-            <p><strong>${{ entry.item.price }}</strong></p>
-            <input type="hidden" name="item_id" value="{{ entry.item.id }}">
-
-            {% if entry.sizes %}
-            <label for="size-{{ entry.item.id }}">Size:</label>
-
-            <select name="size_id" id="size-{{ entry.item.id }}">
-                {% for size in entry.sizes %}
-                <option value="{{ size.id }}">
-                    {{ size.size }} ({{ size.quantity }} available)
-                </option>
-                {% endfor %}
-            </select>
-            <button type="submit">Add to Cart</button>
-            {% else %}
-            <span>No sizes available</span>
-            {% endif %}
-        </form>
-    </div>
-    {% empty %}
-    <p>No items available.</p>
-    {% endfor %}
-</div>
-{% endblock %}
->>>>>>> parent of 12cf567 (feat: add slug field and item detail page for individual product views)

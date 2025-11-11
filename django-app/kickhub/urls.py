@@ -11,9 +11,9 @@ urlpatterns = [
   path("cart/", views.user_cart, name="cart"),
 
   # ✅ ADDED
-  path("cart/update/", views.update_cart_item, name="update_cart_item"),
-  path("cart/remove/", views.remove_from_cart, name="remove_from_cart"),
-  path("checkout/summary/", views.order_summary, name="order_summary"),
+  # path("cart/update/", views.update_cart_item, name="update_cart_item"),
+  # path("cart/remove/", views.remove_from_cart, name="remove_from_cart"),
+  # path("checkout/summary/", views.order_summary, name="order_summary"),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
