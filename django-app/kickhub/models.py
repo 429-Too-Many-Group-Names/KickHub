@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.utils.text import slugify
+from django.urls import reverse
 from datetime import date
 
 class CustomUser(AbstractUser):
@@ -15,10 +17,44 @@ class Item(models.Model):
   description = models.TextField()
   brand = models.CharField(max_length=100, default="Unknown")
   model = models.CharField(max_length=100, default="Unknown")
-  price = models.FloatField()
+  price = models.FloatField() # maybe use decimal instead of float
   color = models.CharField(max_length=100, default="Unknown")
   releaseDate = models.DateField(default=date.today)
   image = models.ImageField(upload_to="item_images/", blank=True, null=True)
+  slug = models.SlugField(max_length=220, unique=True)
+
+  def save(self, *args, **kwargs):
+    if not self.slug:
+      base = slugify(f"{(self.brand or '').strip()} {(self.model or '').strip()}") \
+        or slugify((self.description or '')[:50]) \
+        or f"item-{self.pk or ''}"
+      self.slug = self._unique_slug(base)
+    super().save(*args, **kwargs)
+
+  def _unique_slug(self, base):
+    """
+    Ensure uniqueness: nike-pegasus, nike-pegasus-2, nike-pegasus-3, ...
+    """
+    slug = base or "item"
+    n = 2
+    while Item.objects.filter(slug=slug).exclude(pk=self.pk).exists():
+        slug = f"{base}-{n}"
+        n += 1
+    return slug
+
+  def get_absolute_url(self):
+      return reverse("shop:item_detail", kwargs={"slug": self.slug})
+
+  @property
+  def name(self):
+      return f"{self.brand} {self.model}".strip()
+
+  @property
+  def price_display(self):
+      return f"${self.price:.2f}"  # if DecimalField: f"${self.price}"
+  
+  def __str__(self):
+      return self.name or f"Item #{self.pk}"
         
 class Sizes(models.Model):
   item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name='sizes')

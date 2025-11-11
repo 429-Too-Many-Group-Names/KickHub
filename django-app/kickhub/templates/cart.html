@@ -20,31 +20,6 @@
 
       <!-- Quantity controls -->
       <div style="display:flex;align-items:center;gap:.5rem;margin:.5rem 0;">
-        <form method="post" action="{% url 'update_cart_item' %}">
-          {% csrf_token %}
-          <input type="hidden" name="cart_item_id" value="{{ cart_item.id }}">
-          <input type="hidden" name="action" value="dec">
-          <button type="submit" aria-label="Decrease quantity">−</button>
-        </form>
-
-        <span>Qty: {{ cart_item.quantity }}</span>
-
-        <form method="post" action="{% url 'update_cart_item' %}">
-          {% csrf_token %}
-          <input type="hidden" name="cart_item_id" value="{{ cart_item.id }}">
-          <input type="hidden" name="action" value="inc">
-          <button type="submit" aria-label="Increase quantity">+</button>
-        </form>
-      </div>
-
-      <!-- Remove item -->
-      <form method="post" action="{% url 'remove_from_cart' %}">
-        {% csrf_token %}
-        <input type="hidden" name="cart_item_id" value="{{ cart_item.id }}">
-        <button type="submit" style="background:#f44336;color:#fff;border:none;padding:.4rem .6rem;border-radius:6px;">
-          Remove Item
-        </button>
-      </form>
     </div>
   {% empty %}
     <li>Your cart is empty.</li>
@@ -53,13 +28,6 @@
 
 <!-- Proceed to checkout button (black + rounded) -->
 <div style="margin-top:16px;">
-  <a href="{% url 'order_summary' %}" 
-     class="nav-button" 
-     style="background-color:black;color:white;
-            padding:.6rem 1.2rem;border:none;
-            border-radius:9999px;text-decoration:none;
-            display:inline-block;font-weight:500;">
-    Proceed to Checkout
-  </a>
+
 </div>
 {% endblock %}

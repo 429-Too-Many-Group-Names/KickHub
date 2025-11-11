@@ -1,28 +1,18 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from kickhub.models import Item, ShoppingCart, CartItem, Sizes
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
+from django.views.generic import DetailView
+from django.shortcuts import get_object_or_404
+
 
 
 # Create your views here.
 
 def index(request):
-  # ADDED: read query string (?q=...)
-  q = request.GET.get('q', '').strip()
-
   items = Item.objects.all()
-
-  # ADDED: server-side filtering (retrieve only matching items)
-  if q:
-    items = items.filter(
-      Q(description__icontains=q) |
-      Q(brand__icontains=q) |
-      Q(model__icontains=q) |
-      Q(color__icontains=q)
-    )
-
   items_with_sizes = []
   
   for item in items:
@@ -37,8 +27,6 @@ def index(request):
     'page_title': 'Welcome!',
     'message': 'This is a dynamic message from our Django view.',
     'items': items_with_sizes,
-    # ADDED: pass q back to template so the input shows current value
-    'q': q,
   }
   return render(request, 'index.html', context)
 
@@ -85,3 +73,19 @@ def add_to_cart(request):
     return redirect(request.META.get('HTTP_REFERER', 'index'))
   else:
     return redirect('index')
+
+class ItemDetailView(DetailView):
+  model = Item
+  template_name = "item_detail.html"
+  context_object_name = "item"
+
+  def get_queryset(self):
+    return Item.objects.prefetch_related("sizes")
+
+  def get_context_data(self, **kwargs):
+    ctx = super().get_context_data(**kwargs)
+    item = ctx["item"]
+    available = [s for s in item.sizes.all() if s.quantity > 0]
+    ctx["available_sizes"] = available
+    ctx["in_stock"] = bool(available)
+    return ctx
