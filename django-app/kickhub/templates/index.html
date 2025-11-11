@@ -72,6 +72,7 @@
 </div>
 
 <div class="card-container">
+<<<<<<< HEAD
   {% for entry in items %}
   <!-- data-* attributes power the client-side controls -->
   <div class="card"
@@ -207,6 +208,42 @@
 >>>>>>> searchBar
 {% endblock %}
 =======
+    {% endfor %}
+</div>
+{% endblock %}
+>>>>>>> parent of 12cf567 (feat: add slug field and item detail page for individual product views)
+=======
+    {% for entry in items %}
+    <div class="card">
+        {% if entry.item.image %}
+        <img src="{{ entry.item.image.url }}" alt="{{ entry.item.name }}" class="card-img">
+        {% else %}
+        <img src="{% static 'images/default_placeholder.png' %}" alt="No image available" class="card-img">
+        {% endif %}
+        <form method="post" action="{% url 'add_to_cart' %}" class="add-to-cart-form">
+            {% csrf_token %}
+            <h3>{{ entry.item.description }}</h3>
+            <p><strong>${{ entry.item.price }}</strong></p>
+            <input type="hidden" name="item_id" value="{{ entry.item.id }}">
+
+            {% if entry.sizes %}
+            <label for="size-{{ entry.item.id }}">Size:</label>
+
+            <select name="size_id" id="size-{{ entry.item.id }}">
+                {% for size in entry.sizes %}
+                <option value="{{ size.id }}">
+                    {{ size.size }} ({{ size.quantity }} available)
+                </option>
+                {% endfor %}
+            </select>
+            <button type="submit">Add to Cart</button>
+            {% else %}
+            <span>No sizes available</span>
+            {% endif %}
+        </form>
+    </div>
+    {% empty %}
+    <p>No items available.</p>
     {% endfor %}
 </div>
 {% endblock %}
