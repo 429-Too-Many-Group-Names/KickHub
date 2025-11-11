@@ -13,33 +13,17 @@
     <div class="center-rectangle">
         <nav class="navbar">
             <ul class="nav-links">
-                <a href="{% url 'index' %}" class="site-name">KickHub</a>
+                <li><a href="{% url 'index' %}" class="site-name">KickHub</a></li>
                 <li><a href="{% url 'index' %}" class="nav-button">Home</a></li>
                 {% if user.is_authenticated %}
                 <li><a href="{% url 'profile' %}" class="nav-button">Profile</a></li>
                 <li><a href="{% url 'cart' %}" class="nav-button">Cart</a></li>
-
-                <!-- ADDED: Search bar placed after Cart (right end of menu) -->
                 <li>
-                    <form action="{% url 'index' %}" method="get" role="search" style="display:flex;align-items:center;gap:.5rem;margin-left:10px;">
-                        <input
-                            type="search"
-                            name="q"
-                            id="searchInput"
-                            value="{{ q|default:'' }}"
-                            placeholder="Search shoes..."
-                            aria-label="Search"
-                            autocomplete="off"
-                            style="padding:.4rem .6rem;border:1px solid #ccc;border-radius:6px;min-width:180px;"
-                        />
-                        <button type="submit" class="nav-button" style="padding:.4rem .6rem;border-radius:6px;">Search</button>
+                    <form action="{% url 'account_logout' %}" method="post" class="logout-form">
+                        {% csrf_token %}
+                        <button type="submit" class="nav-button logout-button">Logout</button>
                     </form>
                 </li>
-
-                <form action="{% url 'account_logout' %}" method="post" style="display:inline;">
-                    {% csrf_token %}
-                    <button type="submit">Logout</button>
-                </form>
                 {% else %}
                 <a href="{% provider_login_url 'google' %}">Login</a>
                 {% endif %}

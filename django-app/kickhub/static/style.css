@@ -27,7 +27,7 @@ body {
 .navbar {
     display: flex;
     justify-content: space-between;
-    align-items: right;
+    align-items: center;
     background-color: #ecdec9;
     padding: 10px 30px;
     color: black;
@@ -36,6 +36,7 @@ body {
 .site-name {
     font-size: 24px;
     font-weight: bold;
+    margin-right: 60px;
 }
 
 .nav-links {
@@ -63,6 +64,10 @@ body {
 
 .nav-links a {
     color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
     text-decoration: none;
 }
 
