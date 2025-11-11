@@ -9,7 +9,6 @@ urlpatterns = [
   path("profile/", views.profile, name = "profile"),
   path("add-to-cart/", views.add_to_cart, name="add_to_cart"), 
   path("cart/", views.user_cart, name="cart"),
-  path("items/<slug:slug>/", views.ItemDetailView.as_view(), name="item_detail"),
 
   # ✅ ADDED
   path("cart/update/", views.update_cart_item, name="update_cart_item"),
