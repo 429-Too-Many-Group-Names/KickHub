@@ -7,6 +7,7 @@
 
 <h2>Catalog</h2>
 
+<<<<<<< HEAD
 <!-- Empty-state helper for client-side filtering -->
 <div id="noResults" style="display:none;margin:8px 0 16px;font-style:italic;">No matching items found.</div>
 
@@ -28,6 +29,41 @@
     <input type="checkbox" id="filterAvailable">
     Available (in stock)
   </label>
+=======
+<div class="card-container">
+    {% for entry in items %}
+    <div class="card">
+        {% if entry.item.image %}
+        <img src="{{ entry.item.image.url }}" alt="{{ entry.item.name }}" class="card-img">
+        {% else %}
+        <img src="{% static 'images/default_placeholder.png' %}" alt="No image available" class="card-img">
+        {% endif %}
+        <form method="post" action="{% url 'add_to_cart' %}" class="add-to-cart-form">
+            {% csrf_token %}
+            <h3>{{ entry.item.description }}</h3>
+            <p><strong>${{ entry.item.price }}</strong></p>
+            <input type="hidden" name="item_id" value="{{ entry.item.id }}">
+
+            {% if entry.sizes %}
+            <label for="size-{{ entry.item.id }}">Size:</label>
+
+            <select name="size_id" id="size-{{ entry.item.id }}">
+                {% for size in entry.sizes %}
+                <option value="{{ size.id }}">
+                    {{ size.size }} ({{ size.quantity }} available)
+                </option>
+                {% endfor %}
+            </select>
+            <button type="submit">Add to Cart</button>
+            {% else %}
+            <span>No sizes available</span>
+            {% endif %}
+        </form>
+    </div>
+    {% empty %}
+    <p>No items available.</p>
+    {% endfor %}
+>>>>>>> origin/main
 </div>
 
 <div class="card-container">
