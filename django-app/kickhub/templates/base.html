@@ -1,0 +1,82 @@
+{% load static %}
+{% load socialaccount %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}KickHub{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+
+<body>
+    <div class="center-rectangle">
+        <nav class="navbar">
+            <ul class="nav-links">
+                <li><a href="{% url 'index' %}" class="site-name">KickHub</a></li>
+                <li><a href="{% url 'index' %}" class="nav-button">Home</a></li>
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'profile' %}" class="nav-button">Profile</a></li>
+                <li><a href="{% url 'cart' %}" class="nav-button">Cart</a></li>
+                <li>
+                    <form action="{% url 'account_logout' %}" method="post" class="logout-form">
+                        {% csrf_token %}
+                        <button type="submit" class="nav-button logout-button">Logout</button>
+                    </form>
+                </li>
+                {% else %}
+                <a href="{% provider_login_url 'google' %}">Login</a>
+                {% endif %}
+            </ul>
+        </nav>
+        <hr>
+    
+        {% block content %}{% endblock %}
+    </div>
+    
+</body>
+{% block scripts %}
+<script src="{% static 'main.js' %}"></script>
+
+<!-- ADDED: Client-side live filtering (works on pages with product cards) -->
+<script>
+(function () {
+  const input = document.getElementById('searchInput');
+  const noResults = document.getElementById('noResults');
+  if (!input) return;
+
+  function getCards() {
+    return Array.from(document.querySelectorAll('.card-container > .card'));
+  }
+
+  function buildIndex(card) {
+    if (card.dataset.searchIndex) return card.dataset.searchIndex;
+    const blob = (card.textContent || '').toLowerCase().replace(/\s+/g, ' ').trim();
+    card.dataset.searchIndex = blob;
+    return blob;
+  }
+
+  function matches(card, query) {
+    const q = query.toLowerCase().trim();
+    if (!q) return true;
+    return buildIndex(card).includes(q);
+  }
+
+  function filterCards(query) {
+    const cards = getCards();
+    let shown = 0;
+    cards.forEach(card => {
+      const show = matches(card, query);
+      card.style.display = show ? '' : 'none';
+      if (show) shown++;
+    });
+    if (noResults) noResults.style.display = shown === 0 ? '' : 'none';
+  }
+
+  input.addEventListener('input', () => filterCards(input.value));
+  if (input.value) filterCards(input.value);
+})();
+</script>
+{% endblock %}
+
+</html>
