@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Order Summary{% endblock %}
+
+{% block content %}
+<h2>Order Summary</h2>
+
+{% if items %}
+  <div class="card-container" style="display:block;">
+    <table style="width:100%;border-collapse:collapse;">
+      <thead>
+        <tr style="text-align:left;border-bottom:1px solid #ddd;">
+          <th style="padding:.5rem;">Item</th>
+          <th style="padding:.5rem;">Price</th>
+          <th style="padding:.5rem;">Qty</th>
+          <th style="padding:.5rem;">Line Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in items %}
+        <tr style="border-bottom:1px solid #f0f0f0;">
+          <td style="padding:.5rem;">{{ row.description }}</td>
+          <td style="padding:.5rem;">${{ row.price }}</td>
+          <td style="padding:.5rem;">{{ row.quantity }}</td>
+          <td style="padding:.5rem;">${{ row.line_total }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3" style="text-align:right;padding:.5rem;">Subtotal:</td>
+          <td style="padding:.5rem;"><strong>${{ subtotal }}</strong></td>
+        </tr>
+        <tr>
+          <td colspan="3" style="text-align:right;padding:.5rem;">Tax:</td>
+          <td style="padding:.5rem;">${{ tax }}</td>
+        </tr>
+        <tr>
+          <td colspan="3" style="text-align:right;padding:.5rem;">Shipping:</td>
+          <td style="padding:.5rem;">${{ shipping }}</td>
+        </tr>
+        <tr>
+          <td colspan="3" style="text-align:right;padding:.5rem;border-top:2px solid #000;">Total:</td>
+          <td style="padding:.5rem;border-top:2px solid #000;"><strong>${{ total }}</strong></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <!-- Buttons -->
+  <div style="margin-top:16px;display:flex;gap:12px;">
+    <a href="{% url 'cart' %}" 
+       class="nav-button" 
+       style="background-color:black;color:white;
+              padding:.6rem 1.2rem;border:none;
+              border-radius:9999px;text-decoration:none;
+              display:inline-block;font-weight:500;">
+      Back to Cart
+    </a>
+
+    <button disabled title="Hook this up to your payment flow"
+            style="padding:.6rem 1.2rem;border-radius:8px;
+                   opacity:.6;cursor:not-allowed;">
+      Place Order (coming soon)
+    </button>
+  </div>
+{% else %}
+  <p>Your cart is empty.</p>
+  <a href="{% url 'index' %}" class="nav-button" style="padding:.6rem .9rem;border-radius:8px;">Continue Shopping</a>
+{% endif %}
+{% endblock %}
