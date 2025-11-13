@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Greetings{% endblock %}
 
@@ -10,16 +11,17 @@
 <div class="card-container">
   {% for cart_item in cart_items %}
     <div class="card">
-      <img
-        src="https://via.placeholder.com/250x150?text=Coming+Soon"
-        alt="Placeholder"
-        class="card-img">
+      {% if cart_item.item.image %}
+      <img src="{{ cart_item.item.image.url }}" alt="{{ cart_item.item.name }}" class="card-img">
+      {% else %}
+      <img src="{% static 'images/default_placeholder.png' %}" alt="No image available" class="card-img">
+      {% endif %}
 
       <h3>{{ cart_item.item.description }}</h3>
       <p><strong>${{ cart_item.item.price }}</strong></p>
 
-      <!-- Quantity controls -->
-      <div style="display:flex;align-items:center;gap:.5rem;margin:.5rem 0;">
+      <!-- Quantity controls 
+      <div style="display:flex;align-items:center;gap:.5rem;margin:.5rem 0;"> -->
     </div>
   {% empty %}
     <li>Your cart is empty.</li>
