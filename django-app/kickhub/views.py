@@ -130,7 +130,7 @@ def create_checkout_session(request):
             }
         )
 
-        print(user.id)
+        
 
     try:
 
@@ -142,8 +142,9 @@ def create_checkout_session(request):
             line_items=line_items_list,
             mode="payment",
             success_url="http://localhost:8000/",
-            cancel_url="http://localhost:8000",
+            cancel_url="http://localhost:8000/cart",
             metadata={"user_id": user.id, "order_id": 123},
+            automatic_tax={"enabled":True}
         )
 
         return redirect(checkout_session.url, code=303)
