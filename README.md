@@ -165,16 +165,142 @@ You can load multiple files or different fixtures as needed. Make sure your JSON
 
 
 
-## 14. Stripe API Integration (Coming Soon)
+## 14. Stripe API Integration
 
-Stripe API integration for payment processing will be added soon. Stay tuned for updates and setup instructions!
+This project uses Stripe for payment processing. Follow the steps below to set up Stripe integration locally.
+
+### Step 1: Create a Stripe Account
+
+1. Sign up for a free Stripe account at [https://stripe.com](https://stripe.com)
+2. Navigate to the [Stripe Dashboard](https://dashboard.stripe.com/)
+3. Switch to **Test Mode** (toggle in the top right corner)
+
+### Step 2: Get Your API Keys
+
+1. In the Stripe Dashboard, go to **Developers > API keys**
+2. Copy your **Publishable key** and **Secret key** (test mode)
+3. Keep these keys secure and never commit them to version control
+
+### Step 3: Set Up Environment Variables
+
+Create a `.env` file in your Django project root (or `django-app/` directory) with the following values:
+
+```bash
+# Stripe API Keys (Test Mode)
+STRIPE_PUBLISHABLE_KEY=pk_test_your_publishable_key_here
+STRIPE_SECRET_KEY=sk_test_your_secret_key_here
+STRIPE_WEBHOOK_SECRET=whsec_your_webhook_secret_here
+```
+
+**Important:**
+- Replace the placeholder values with your actual Stripe keys
+- The `STRIPE_WEBHOOK_SECRET` will be generated when you set up the Stripe CLI (see Step 4)
+- Make sure `.env` is listed in your `.gitignore` file to prevent accidentally committing secrets
+
+### Step 4: Install Stripe CLI
+
+The Stripe CLI allows you to test webhooks locally by forwarding Stripe events to your development server.
+
+#### **macOS**
+
+Using Homebrew:
+```bash
+brew install stripe/stripe-cli/stripe
+```
+
+#### **Linux**
+
+Using the installation script:
+```bash
+# Download and install
+curl -s https://packages.stripe.dev/api/security/keypair/stripe-cli-gpg/public | gpg --dearmor | sudo tee /usr/share/keyrings/stripe.gpg
+echo "deb [signed-by=/usr/share/keyrings/stripe.gpg] https://packages.stripe.dev/stripe-cli-debian-local stable main" | sudo tee -a /etc/apt/sources.list.d/stripe.list
+sudo apt update
+sudo apt install stripe
+```
+
+Alternatively, download the binary directly:
+```bash
+# Download the latest release
+wget https://github.com/stripe/stripe-cli/releases/latest/download/stripe_linux_x86_64.tar.gz
+
+# Extract and move to a directory in your PATH
+tar -xvf stripe_linux_x86_64.tar.gz
+sudo mv stripe /usr/local/bin/
+```
+
+#### **Windows**
+
+Using Scoop:
+```powershell
+scoop bucket add stripe https://github.com/stripe/scoop-stripe-cli.git
+scoop install stripe
+```
+
+Or download the executable directly:
+1. Download the latest Windows release from [GitHub Releases](https://github.com/stripe/stripe-cli/releases)
+2. Extract the `stripe.exe` file
+3. Add the directory containing `stripe.exe` to your system PATH
+
+### Step 5: Authenticate Stripe CLI
+
+After installation, authenticate the CLI with your Stripe account:
+
+```bash
+stripe login
+```
+
+This will open a browser window to authorize the CLI. Press Enter to confirm.
+
+### Step 6: Forward Webhooks to Your Local Server
+
+Start the Stripe webhook forwarding to listen for events and forward them to your local Django server:
+
+```bash
+stripe listen --forward-to localhost:8000/webhooks/stripe/
+```
+
+**Important:** Copy the webhook signing secret (`whsec_...`) that appears in the terminal and add it to your `.env` file as `STRIPE_WEBHOOK_SECRET`.
+
+Example output:
+```
+> Ready! Your webhook signing secret is whsec_1234567890abcdef (^C to quit)
+```
+
+Keep this terminal window open while developing. The CLI will forward all Stripe events to your local server.
+
+### Step 7: Test Your Integration
+
+With your Django server running and the Stripe CLI listening, you can test payments using Stripe's test card numbers:
+
+- **Successful payment:** `4242 4242 4242 4242`
+- **Requires authentication:** `4000 0025 0000 3155`
+- **Declined payment:** `4000 0000 0000 9995`
+
+Use any future expiration date, any 3-digit CVC, and any postal code.
+
+### Step 8: Trigger Test Events (Optional)
+
+You can manually trigger test webhook events using the Stripe CLI:
+
+```bash
+# Trigger a successful payment event
+stripe trigger payment_intent.succeeded
+
+# Trigger a checkout session completed event
+stripe trigger checkout.session.completed
+```
 
 ### Stripe Documentation
 - [Stripe API Reference](https://stripe.com/docs/api)
 - [Stripe Python Integration Guide](https://stripe.com/docs/payments/accept-a-payment?platform=web&lang=python)
 - [Stripe Django Integration Example](https://testdriven.io/blog/django-stripe/)
+- [Stripe CLI Documentation](https://stripe.com/docs/stripe-cli)
+- [Stripe Test Cards](https://stripe.com/docs/testing)
 
 This guide will help you set up and run the Django app on Windows, Linux, and macOS. It covers prerequisites, virtual environments, dependencies, database setup, Google authentication, and admin configuration.
+
+
 
 ---
 

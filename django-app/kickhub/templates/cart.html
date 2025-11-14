@@ -19,6 +19,7 @@
 
       <h3>{{ cart_item.item.description }}</h3>
       <p><strong>${{ cart_item.item.price }}</strong></p>
+      <p>{{ cart_item.item.quantity }}</p>
 
       <!-- Quantity controls 
       <div style="display:flex;align-items:center;gap:.5rem;margin:.5rem 0;"> -->
@@ -27,6 +28,18 @@
     <li>Your cart is empty.</li>
   {% endfor %}
 </div>
+
+{% if cart_items %}
+    <form action="{% url 'checkout' %}" method="POST">
+  {% csrf_token %}
+  
+  <button type="submit" id="checkout-button">
+    Proceed to Checkout
+  </button>
+</form>
+{% endif %}
+
+
 
 <!-- Proceed to checkout button (black + rounded) -->
 <div style="margin-top:16px;">
