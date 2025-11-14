@@ -25,7 +25,7 @@
                     </form>
                 </li>
                 {% else %}
-                <a href="{% provider_login_url 'google' %}">Login</a>
+                <li><a href="{% provider_login_url 'google' %}" class="nav-button logout-button">Login</a></li>
                 {% endif %}
             </ul>
         </nav>
