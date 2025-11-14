@@ -1,12 +1,40 @@
 {% extends "base.html" %}
 {% load static %}
 
-
 {% block title %}KickHub{% endblock %}
 
 {% block content %}
 
-<h2>Catalog</h2>
+<!-- Sticky wrapper so header + filters + search stay at top of the box -->
+<div class="catalog-sticky">
+  <div class="catalog-header">
+
+    <!-- Price Filter (LEFT) -->
+    <form class="price-filter-form">
+      <select id="price-filter" class="price-filter-select">
+        <option value="default">Price / Stock</option>
+        <option value="low-high">Sort price: lowest to highest</option>
+        <option value="high-low">Sort price: highest to lowest</option>
+        <option value="in-stock">In stock</option>
+      </select>
+    </form>
+
+    <!-- Centered Title -->
+    <h2>Catalog</h2>
+
+    <!-- Search bar (RIGHT) -->
+    <form method="get" action="" class="search-form">
+      <input
+        type="text"
+        name="q"
+        id="search-input"
+        class="search-input"
+        placeholder="Search shoes..."
+        value="{{ request.GET.q|default_if_none:'' }}"
+      >
+    </form>
+  </div>
+</div>
 
 <div class="card-container">
   {% for entry in items %}
@@ -21,7 +49,7 @@
       <h3>{{ entry.item.description }}</h3>
     </a>
 
-    <p><strong>${{ entry.item.price }}</strong></p>
+    <p class="card-price"><strong>${{ entry.item.price }}</strong></p>
 
     <form method="post" action="{% url 'add_to_cart' %}" class="add-to-cart-form">
       {% csrf_token %}
@@ -38,7 +66,7 @@
         </select>
         <button type="submit">Add to Cart</button>
       {% else %}
-        <span>No sizes available</span>
+        <span class="out-of-stock-label">No sizes available</span>
       {% endif %}
     </form>
   </div>
@@ -46,4 +74,83 @@
     <p>No items available.</p>
   {% endfor %}
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const searchInput = document.getElementById('search-input');
+    const priceFilter = document.getElementById('price-filter');
+    const cardContainer = document.querySelector('.card-container');
+    const cards = Array.from(document.querySelectorAll('.card'));
+
+    if (!cardContainer) return;
+
+    // Helper: get numeric price from a card
+    function getPrice(card) {
+      const priceEl = card.querySelector('.card-price');
+      if (!priceEl) return Infinity;
+      const text = priceEl.textContent || '';
+      const num = parseFloat(text.replace(/[^0-9.]/g, ''));
+      return isNaN(num) ? Infinity : num;
+    }
+
+    // Helper: check if card is in stock
+    function isInStock(card) {
+      const outLabel = card.querySelector('.out-of-stock-label');
+      return !outLabel; // if no "No sizes available" label, treat as in stock
+    }
+
+    // Helper: text search match
+    function matchesSearch(card, query) {
+      const q = (query || '').toLowerCase().trim();
+      if (!q) return true;
+      const title = card.querySelector('h3')?.textContent.toLowerCase() || '';
+      return title.includes(q);
+    }
+
+    function applyFilters() {
+      const query = searchInput ? searchInput.value : '';
+      const mode = priceFilter ? priceFilter.value : 'default';
+
+      // First: filter by search + "in stock" if selected
+      let visibleCards = cards.slice();
+
+      visibleCards.forEach(card => {
+        let show = matchesSearch(card, query);
+
+        if (mode === 'in-stock') {
+          show = show && isInStock(card);
+        }
+
+        card.style.display = show ? '' : 'none';
+      });
+
+      // Then: if sorting is selected, sort the DOM order of *visible* cards
+      if (mode === 'low-high' || mode === 'high-low') {
+        const sorted = visibleCards
+          .filter(card => card.style.display !== 'none')
+          .sort((a, b) => {
+            const pa = getPrice(a);
+            const pb = getPrice(b);
+            if (mode === 'low-high') return pa - pb;
+            return pb - pa;
+          });
+
+        // Re-append sorted cards at the end of container in new order
+        sorted.forEach(card => cardContainer.appendChild(card));
+      } else if (mode === 'default') {
+        // Restore original order (based on initial cards array)
+        cards.forEach(card => cardContainer.appendChild(card));
+      }
+    }
+
+    if (searchInput) {
+      searchInput.addEventListener('input', applyFilters);
+    }
+
+    if (priceFilter) {
+      priceFilter.addEventListener('change', applyFilters);
+    }
+  });
+</script>
+
 {% endblock %}

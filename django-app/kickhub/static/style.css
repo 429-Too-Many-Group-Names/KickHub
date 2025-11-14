@@ -18,8 +18,7 @@ body {
     padding: 20px;
     border-radius: 15px;
     box-sizing: border-box;
-
-    overflow-y: auto;
+    overflow-y: auto; /* makes inside scroll, needed for sticky header */
 }
 
 /* Navigation Bar */
@@ -55,7 +54,7 @@ body {
     font-size: 16px;
     padding: 10px 0;
     cursor: pointer;
-    transition: bakcground-color 0.3s ease;
+    transition: background-color 0.3s ease;
 }
 
 .nav-button:hover {
@@ -69,6 +68,73 @@ body {
     justify-content: center;
     gap: 20px;
     text-decoration: none;
+}
+
+/* Sticky Catalog header (filter + title + search) */
+
+.catalog-sticky {
+    position: sticky;
+    top: 0;               /* stick to top of the scrolling .center-rectangle */
+    z-index: 10;
+    background-color: white;
+}
+
+/* Row container: price filter (left), title (center), search (right) */
+.catalog-header {
+    position: relative;
+    padding: 10px 20px 0 20px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+/* Center the Catalog h2 */
+.catalog-header h2 {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+}
+
+/* Price filter dropdown on the left */
+.price-filter-form {
+    display: flex;
+    align-items: center;
+}
+
+.price-filter-select {
+    padding: 6px 10px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    outline: none;
+    background-color: white;
+}
+
+.price-filter-select:focus {
+    border-color: #333;
+    box-shadow: 0 0 4px rgba(0,0,0,0.15);
+}
+
+/* Search form and rounded search input (right side) */
+.search-form {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}
+
+.search-input {
+    padding: 8px 14px;
+    border-radius: 999px; /* pill shape */
+    border: 1px solid #ccc;
+    min-width: 220px;
+    font-size: 14px;
+    outline: none;
+}
+
+.search-input:focus {
+    border-color: #333;
+    box-shadow: 0 0 4px rgba(0,0,0,0.15);
 }
 
 /* Item Cards */
@@ -132,4 +198,10 @@ body {
 
 .card button:hover {
     background-color: #555;
+}
+
+/* Optional: style out-of-stock label if you want it to pop */
+.out-of-stock-label {
+    color: #b00020;
+    font-weight: 600;
 }

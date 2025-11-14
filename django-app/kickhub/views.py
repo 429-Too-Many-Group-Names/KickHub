@@ -7,8 +7,6 @@ from django.http import JsonResponse
 from django.views.generic import DetailView
 from django.shortcuts import get_object_or_404
 
-
-
 # Create your views here.
 
 def index(request):
@@ -22,14 +20,12 @@ def index(request):
       'sizes': sizes
     })
 
-    
   context = {
     'page_title': 'Welcome!',
     'message': 'This is a dynamic message from our Django view.',
     'items': items_with_sizes,
   }
   return render(request, 'index.html', context)
-
 
 def profile(request):
   user = request.user
@@ -46,8 +42,7 @@ def user_cart(request):
   cart_items = CartItem.objects.filter(cart=cart)
   
   return render(request, 'cart.html', {"user": user, "cart": cart, "cart_items": cart_items})
-  
-  
+
 def add_to_cart(request):
   user = request.user
   if not user.is_authenticated:
@@ -59,15 +54,12 @@ def add_to_cart(request):
       item = Item.objects.get(id=item_id)
       user = request.user
 
-
       cart, created = ShoppingCart.objects.get_or_create(user=user)
-
 
       cart_item, created = CartItem.objects.get_or_create(cart=cart, item=item, defaults={'quantity': quantity})
       cart_item.quantity += quantity
       cart_item.save()
       
-
   if request.headers.get('x-requested-with') == 'XMLHttpRequest':
     return JsonResponse({'success': True, 'message': 'Added to cart!'})
     return redirect(request.META.get('HTTP_REFERER', 'index'))

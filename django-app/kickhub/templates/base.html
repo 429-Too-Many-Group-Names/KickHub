@@ -30,15 +30,14 @@
             </ul>
         </nav>
         <hr>
-    
+
         {% block content %}{% endblock %}
     </div>
-    
 </body>
+
 {% block scripts %}
 <script src="{% static 'main.js' %}"></script>
 
-<!-- ADDED: Client-side live filtering (works on pages with product cards) -->
 <script>
 (function () {
   const input = document.getElementById('searchInput');
