@@ -68,22 +68,31 @@ def add_to_cart(request):
     else:
         if request.method == "POST":
             item_id = request.POST.get("item_id")
+            size_id = request.POST.get("size_id")
             quantity = int(request.POST.get("quantity", 1))
             item = Item.objects.get(id=item_id)
-            user = request.user
+            size = Sizes.objects.get(id=size_id, item=item)
+
+            if quantity > size.quantity:
+                return JsonResponse({"Error": "Not enough stock available"})
 
             cart, created = ShoppingCart.objects.get_or_create(user=user)
 
             cart_item, created = CartItem.objects.get_or_create(
-                cart=cart, item=item, defaults={"quantity": quantity}
+                cart=cart, item=item, size=size, defaults={"quantity": quantity}
             )
             if not created:
+                if cart_item.quantity + quantity > size.quantity:
+                    return JsonResponse(
+                        {"error": "Not enough stock for this size."}, status=400
+                    )
+
                 cart_item.quantity += quantity
                 cart_item.save()
 
     if request.headers.get("x-requested-with") == "XMLHttpRequest":
         return JsonResponse({"success": True, "message": "Added to cart!"})
-        return redirect(request.META.get("HTTP_REFERER", "index"))
+        # return redirect(request.META.get("HTTP_REFERER", "index"))
     else:
         return redirect("index")
 
@@ -122,15 +131,13 @@ def create_checkout_session(request):
                     "currency": "usd",
                     "unit_amount": int(item.item.price * 100),
                     "product_data": {
-                        "name": item.item.name,
+                        "name": f"{item.item.name} - Size {item.size.size}",
                         # 'images': [item.item.image.url] if item.item.image else [],
                     },
                 },
                 "quantity": item.quantity,  # Move quantity outside of price_data
             }
         )
-
-        
 
     try:
 
@@ -144,7 +151,7 @@ def create_checkout_session(request):
             success_url="http://localhost:8000/",
             cancel_url="http://localhost:8000/cart",
             metadata={"user_id": user.id, "order_id": 123},
-            automatic_tax={"enabled":True}
+            automatic_tax={"enabled": True},
         )
 
         return redirect(checkout_session.url, code=303)
@@ -177,6 +184,10 @@ def stripe_webhook(request):
             elif "customer_details" in session and session["customer_details"]:
                 shipping_address = session["customer_details"]["address"]
 
+            for cart_item in cart_items:
+                size = cart_item.size
+                size.quantity = max(0, size.quantity - cart_item.quantity)
+                size.save()
             # Convert address dict to string for saving (simple example)
             if shipping_address:
                 shipping_address_str = ", ".join(
@@ -204,14 +215,21 @@ def stripe_webhook(request):
                 status="completed",
                 shipping_address=shipping_address_str,
             )
-            # Clear the cart in the database
+            for cart_item in cart_items:
+                OrderItem.objects.create(
+                    order=order,
+                    item=cart_item.item,
+                    size=cart_item.size,
+                    quantity=cart_item.quantity,
+                    price=cart_item.item.price,
+                )
             cart.cart_items.all().delete()
             cart.checked_out = True
             print(cart)
             cart.save()
             print(
                 "Cart items after delete:", cart.cart_items.count()
-            )  # Debug: should print 0
+            )
         except Exception as e:
             return HttpResponse(status=500)
     return HttpResponse(status=200)

@@ -83,6 +83,7 @@ class CartItem(models.Model):
         ShoppingCart, on_delete=models.CASCADE, related_name="cart_items"
     )
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    size = models.ForeignKey(Sizes, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField()
 
     class Meta:
@@ -110,8 +111,9 @@ class OrderItem(models.Model):
         Order, on_delete=models.CASCADE, related_name="order_items"
     )
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    size = models.ForeignKey(Sizes, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
 
     class Meta:
-        unique_together = ("order", "item")
+        unique_together = ("order", "item", "size")
