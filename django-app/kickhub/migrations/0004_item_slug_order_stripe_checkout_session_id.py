@@ -11,12 +11,6 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AddField(
-            model_name='item',
-            name='slug',
-            field=models.SlugField(default='item-default', max_length=220, unique=True),
-            preserve_default=False,
-        ),
-        migrations.AddField(
             model_name='order',
             name='stripe_checkout_session_id',
             field=models.CharField(blank=True, max_length=255, null=True),
