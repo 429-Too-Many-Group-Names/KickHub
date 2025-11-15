@@ -60,7 +60,7 @@
 
     <p><strong>${{ entry.item.price }}</strong></p>
 
-    <form method="post" action="{% url 'add_to_cart' %}" class="add-to-cart-form">
+    <form method="post" action="{% url 'add_to_cart' %}">
       {% csrf_token %}
       <input type="hidden" name="item_id" value="{{ entry.item.id }}">
 
@@ -151,6 +151,130 @@ document.addEventListener('DOMContentLoaded', function () {
   // Initial run (covers pre-filled ?q=... in URL)
   applyFilters();
 });
+</script>
+
+
+<script>
+function showToast(message, duration=3000) {
+    const container = document.getElementById("toast-container");
+    if (!container) return;
+
+    const toast = document.createElement("div");
+    toast.className = "toast";
+    toast.textContent = message;
+    container.appendChild(toast);
+
+    setTimeout(() => toast.classList.add("show"), 50);
+    setTimeout(() => {
+        toast.classList.remove("show");
+        setTimeout(() => container.removeChild(toast), 300);
+    }, duration);
+}
+
+// Display Django messages
+{% if messages %}
+    {% for message in messages %}
+        document.querySelectorAll('.toast-container').forEach(container => {
+        showToast(container, "{{ message }}");
+    {% endfor %}
+{% endif %}
+</script>
+
+
+<p id="noResults" style="display:none; margin-top: 1rem;">
+  No matching items found.
+</p>
+
+<!-- PAGE-SPECIFIC JS: search + price filter -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const searchInput = document.getElementById('searchInput');
+  const priceFilter = document.getElementById('priceFilter');
+  const container = document.querySelector('.card-container');
+  const cards = Array.from(container.querySelectorAll('.card'));
+  const noResults = document.getElementById('noResults');
+
+  function applyFilters() {
+    const q = (searchInput.value || '').toLowerCase().trim();
+    const filter = priceFilter.value;
+    let visible = [];
+
+    // First: filter by search text + in stock option
+    cards.forEach(card => {
+      const text = (card.textContent || '').toLowerCase();
+      const price = parseFloat(card.dataset.price || '0');
+      const inStock = card.dataset.inStock === '1';
+
+      let show = true;
+
+      if (q && !text.includes(q)) {
+        show = false;
+      }
+
+      if (filter === 'in_stock' && !inStock) {
+        show = false;
+      }
+
+      card.style.display = show ? '' : 'none';
+
+      if (show) {
+        visible.push({ el: card, price });
+      }
+    });
+
+    // Then: sort visible ones by price if selected
+    if (filter === 'low_to_high' || filter === 'high_to_low') {
+      visible.sort((a, b) => {
+        return filter === 'low_to_high'
+          ? a.price - b.price
+          : b.price - a.price;
+      });
+
+      visible.forEach(obj => container.appendChild(obj.el));
+    }
+
+    if (noResults) {
+      noResults.style.display = visible.length === 0 ? '' : 'none';
+    }
+  }
+
+  if (searchInput) {
+    searchInput.addEventListener('input', applyFilters);
+  }
+  if (priceFilter) {
+    priceFilter.addEventListener('change', applyFilters);
+  }
+
+  // Initial run (covers pre-filled ?q=... in URL)
+  applyFilters();
+});
+</script>
+
+
+<script>
+function showToast(message, duration=3000) {
+    const container = document.getElementById("toast-container");
+    if (!container) return;
+
+    const toast = document.createElement("div");
+    toast.className = "toast";
+    toast.textContent = message;
+    container.appendChild(toast);
+
+    setTimeout(() => toast.classList.add("show"), 50);
+    setTimeout(() => {
+        toast.classList.remove("show");
+        setTimeout(() => container.removeChild(toast), 300);
+    }, duration);
+}
+
+// Display Django messages
+{% if messages %}
+    {% for message in messages %}
+        document.querySelectorAll('.toast-container').forEach(container => {
+        showToast(container, "{{ message }}");
+    {% endfor %}
+{% endif %}
 </script>
 
 {% endblock %}
