@@ -28,7 +28,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #ecdec9;
+    /*background-color: #ecdec9; */
     padding: 10px 30px;
     color: black;
 }
@@ -71,10 +71,8 @@ body {
     text-decoration: none;
 }
 
-/* ===== Catalog toolbar: price filter + Catalog + search ===== */
-
 .catalog-header-wrapper {
-    position: sticky;     /* sticks to top of the white box when scrolling */
+    /* position: sticky; */
     top: 0;
     z-index: 5;
     background-color: white;
@@ -110,7 +108,7 @@ body {
     justify-content: flex-end;
 }
 
-/* Price filter dropdown (left) */
+
 .price-filter {
     padding: 8px 12px;
     border-radius: 20px;
@@ -119,7 +117,7 @@ body {
     background-color: #fff;
 }
 
-/* Search bar (right) */
+
 .search-form {
     max-width: 260px;
     width: 100%;
@@ -128,19 +126,17 @@ body {
 .search-input {
     width: 100%;
     padding: 8px 12px;
-    border-radius: 20px;       /* rounded */
+    border-radius: 20px;
     border: 1px solid #ccc;
     font-size: 14px;
 }
 
-/* Thin divider under Catalog row (separate from navbar hr) */
 .catalog-divider {
     margin: 0 20px 10px;
     border: none;
     border-top: 1px solid #eee;
 }
 
-/* Screen-reader-only helper (for the label) */
 .sr-only {
     position: absolute;
     width: 1px;
@@ -152,8 +148,6 @@ body {
     white-space: nowrap;
     border: 0;
 }
-
-/* Item Cards */
 
 .card-container {
     display: flex;
@@ -215,7 +209,6 @@ body {
     background-color: #555;
 }
 
-/*Toast container*/
 nav #toast-container .toast {
     background-color: #333 !important;
     color: #fff !important;
@@ -226,8 +219,6 @@ nav #toast-container .toast {
     box-shadow: 0 4px 8px rgba(0,0,0,0.3) !important;
 }
 
-
-/* Individual toast */
 .toast {
     background: #555;
     color: #fff;

@@ -84,6 +84,33 @@
   {% endfor %}
 </div>
 
+<script>
+function showToast(message, duration=3000) {
+    const container = document.getElementById("toast-container");
+    if (!container) return;
+
+    const toast = document.createElement("div");
+    toast.className = "toast";
+    toast.textContent = message;
+    container.appendChild(toast);
+
+    setTimeout(() => toast.classList.add("show"), 50);
+    setTimeout(() => {
+        toast.classList.remove("show");
+        setTimeout(() => container.removeChild(toast), 300);
+    }, duration);
+}
+
+// Display Django messages
+{% if messages %}
+    {% for message in messages %}
+        document.querySelectorAll('.toast-container').forEach(container => {
+        showToast(container, "{{ message }}");
+    {% endfor %}
+{% endif %}
+</script>
+
+
 <p id="noResults" style="display:none; margin-top: 1rem;">
   No matching items found.
 </p>
