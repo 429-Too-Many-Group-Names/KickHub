@@ -1,16 +1,53 @@
 {% extends "base.html" %}
 {% load static %}
 
-
 {% block title %}KickHub{% endblock %}
 
 {% block content %}
 
-<h2>Catalog</h2>
+<!-- Sticky header row: price filter (left) + Catalog (center) + search (right) -->
+<div class="catalog-header-wrapper">
+  <div class="catalog-header">
+    <!-- LEFT: Price filter dropdown -->
+    <div class="catalog-toolbar-left">
+      <label for="priceFilter" class="sr-only">Price filter</label>
+      <select id="priceFilter" class="price-filter">
+        <option value="">Price filter</option>
+        <option value="low_to_high">Price: Low to High</option>
+        <option value="high_to_low">Price: High to Low</option>
+        <option value="in_stock">In Stock Only</option>
+      </select>
+    </div>
+
+    <!-- CENTER: Catalog title -->
+    <h2 class="catalog-title">Catalog</h2>
+
+    <!-- RIGHT: Rounded search bar -->
+    <div class="catalog-toolbar-right">
+      <form method="get" action="" class="search-form">
+        <input
+          type="text"
+          name="q"
+          id="searchInput"
+          class="search-input"
+          placeholder="Search shoes..."
+          value="{{ request.GET.q|default_if_none:'' }}"
+        >
+      </form>
+    </div>
+  </div>
+
+  <!-- Thin line under the header row -->
+  <hr class="catalog-divider">
+</div>
 
 <div class="card-container">
   {% for entry in items %}
-  <div class="card">
+  <div
+    class="card"
+    data-price="{{ entry.item.price }}"
+    data-in-stock="{% if entry.sizes %}1{% else %}0{% endif %}"
+  >
     <!-- Clickable link to the detail page -->
     <a href="{% url 'item_detail' entry.item.slug %}">
       {% if entry.item.image %}
@@ -46,6 +83,76 @@
     <p>No items available.</p>
   {% endfor %}
 </div>
+
+<p id="noResults" style="display:none; margin-top: 1rem;">
+  No matching items found.
+</p>
+
+<!-- PAGE-SPECIFIC JS: search + price filter -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const searchInput = document.getElementById('searchInput');
+  const priceFilter = document.getElementById('priceFilter');
+  const container = document.querySelector('.card-container');
+  const cards = Array.from(container.querySelectorAll('.card'));
+  const noResults = document.getElementById('noResults');
+
+  function applyFilters() {
+    const q = (searchInput.value || '').toLowerCase().trim();
+    const filter = priceFilter.value;
+    let visible = [];
+
+    // First: filter by search text + in stock option
+    cards.forEach(card => {
+      const text = (card.textContent || '').toLowerCase();
+      const price = parseFloat(card.dataset.price || '0');
+      const inStock = card.dataset.inStock === '1';
+
+      let show = true;
+
+      if (q && !text.includes(q)) {
+        show = false;
+      }
+
+      if (filter === 'in_stock' && !inStock) {
+        show = false;
+      }
+
+      card.style.display = show ? '' : 'none';
+
+      if (show) {
+        visible.push({ el: card, price });
+      }
+    });
+
+    // Then: sort visible ones by price if selected
+    if (filter === 'low_to_high' || filter === 'high_to_low') {
+      visible.sort((a, b) => {
+        return filter === 'low_to_high'
+          ? a.price - b.price
+          : b.price - a.price;
+      });
+
+      visible.forEach(obj => container.appendChild(obj.el));
+    }
+
+    if (noResults) {
+      noResults.style.display = visible.length === 0 ? '' : 'none';
+    }
+  }
+
+  if (searchInput) {
+    searchInput.addEventListener('input', applyFilters);
+  }
+  if (priceFilter) {
+    priceFilter.addEventListener('change', applyFilters);
+  }
+
+  // Initial run (covers pre-filled ?q=... in URL)
+  applyFilters();
+});
+</script>
+
 
 <script>
 function showToast(message, duration=3000) {
