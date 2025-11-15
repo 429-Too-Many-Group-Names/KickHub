@@ -10,6 +10,7 @@ from kickhub.models import (
     CustomUser,
 )
 from django.contrib.auth.models import User
+from django.contrib import messages
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
@@ -94,7 +95,8 @@ def add_to_cart(request):
         return JsonResponse({"success": True, "message": "Added to cart!"})
         # return redirect(request.META.get("HTTP_REFERER", "index"))
     else:
-        return redirect("index")
+        messages.success(request, "Item added to cart!")
+        return redirect(request.META.get("HTTP_REFERER", "item_detail"))
 
 
 class ItemDetailView(DetailView):
