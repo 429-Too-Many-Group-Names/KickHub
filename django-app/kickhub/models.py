@@ -87,7 +87,7 @@ class CartItem(models.Model):
     quantity = models.PositiveIntegerField()
 
     class Meta:
-        unique_together = ("cart", "item")
+        unique_together = ("cart", "item", "size")
 
 
 class Order(models.Model):
@@ -100,7 +100,7 @@ class Order(models.Model):
     shipping_address = models.TextField(blank=True, null=True)
     stripe_checkout_session_id = models.CharField(
         max_length=255, blank=True, null=True
-    )  # <-- Add this line
+    ) 
 
     def __str__(self):
         return f"Order {self.id} by {self.user.username}"
