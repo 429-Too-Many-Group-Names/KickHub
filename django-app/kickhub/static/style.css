@@ -55,7 +55,7 @@ body {
     font-size: 16px;
     padding: 10px 0;
     cursor: pointer;
-    transition: bakcground-color 0.3s ease;
+    transition: background-color 0.3s ease;
 }
 
 .nav-button:hover {
@@ -82,6 +82,7 @@ body {
 }
 
 .card {
+    position: relative; 
     width: 250px;
     text-align: center;
     background-color: white;
@@ -89,6 +90,10 @@ body {
     border-radius: 10px;
     box-shadow: 0 0 8px rgba(0,0,0,0.2);
     transition: transform 0.3s;
+    overflow: hidden;                /* OPTIONAL: keeps overlay tidy on edges */
+    cursor: pointer;
+    display: flex;
+    flex-direction: column; 
 }
 
 .card img {
@@ -131,4 +136,28 @@ body {
 
 .card button:hover {
     background-color: #555;
+}
+
+/* Full-card invisible click area */
+.card-overlay {
+    position: absolute;
+    inset: 0;                  /* same as top:0; right:0; bottom:0; left:0; */
+    z-index: 1;
+    background: transparent;   /* invisible but clickable */
+    text-decoration: none;
+    display: block;
+    pointer-events: auto;
+}
+
+/* Make actual content + form sit above the overlay */
+.card img,
+.card h3,
+.card p,
+.card select,
+.card button,
+.card label,
+.card-form-container {
+    position: relative;
+    z-index: 2;
+    pointer-events: auto;
 }
