@@ -13,6 +13,8 @@ urlpatterns = [
     path("items/<slug:slug>/", views.ItemDetailView.as_view(), name="item_detail"),
     path("webhook/stripe/", views.stripe_webhook, name="stripe_webhook"),
     # path('order/success/', views.order_success, name='order_success'),
+    path("order/<int:order_id>", views.order_items, name="order_items"),
 ]
+
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

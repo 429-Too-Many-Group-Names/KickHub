@@ -6,22 +6,25 @@
 <h2>Order #{{ order.id }}</h2>
 <p>Status: {{ order.status }}</p>
 <p>Total Amount: ${{ order.total_amount }}</p>
-<p>Shipping Address: {{ order.shipping_address }}</p>
+<p>Shipping Address: {{ shipping_address }}</p>
 <p>Order Date: {{ order.created_at }}</p>
 
 <h3>Items in this Order:</h3>
-<ul>
+<div>
     {% for item in order_items %}
-    <li>
-        <strong>{{ item.item.name }}</strong> <br>
-        Size: {{ item.size.size }} <br>
-        Quantity: {{ item.quantity }} <br>
-        Price: ${{ item.price }} <br>
-    </li>
+    <div class="card-container">
+        <div class="card">
+            <strong>{{ item.item.name }}</strong> <br>
+            Size: {{ item.size.size }} <br>
+            Qty: {{ item.quantity }} <br>
+            Price: ${{ item.price }}
+        </div>
+    </div>
+
     {% empty %}
-    <li>No items in this order.</li>
+    <p>No items in this order.</p>
     {% endfor %}
-</ul>
+</div>
 
 <a href="{% url 'profile' %}">
     <button type="button">Back to Profile</button>

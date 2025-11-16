@@ -19,6 +19,7 @@ from django.shortcuts import get_object_or_404
 import stripe
 import os
 from django.conf import settings
+import datetime
 
 # Create your views here.
 
@@ -46,7 +47,11 @@ def profile(request):
     user = request.user
     if not request.user.is_authenticated:
         return redirect("index")
-    return render(request, "user-profile.html", {"user": user})
+    
+    orders = Order.objects.filter(user=user)
+    
+    
+    return render(request, "user-profile.html", {"user": user, "orders": orders,})
 
 
 def user_cart(request):
@@ -235,3 +240,12 @@ def stripe_webhook(request):
         except Exception as e:
             return HttpResponse(status=500)
     return HttpResponse(status=200)
+
+
+def order_items(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    items = OrderItem.objects.filter(order=order)
+    shipping_list = order.shipping_address.split(',')
+    shipping_list.remove(' None')
+    shipping_address = ','.join(shipping_list)
+    return render(request, "order_items.html", {"order": order, "order_items": items, 'shipping_address': shipping_address})
