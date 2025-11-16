@@ -80,7 +80,8 @@ def add_to_cart(request):
             size = Sizes.objects.get(id=size_id, item=item)
 
             if quantity > size.quantity:
-                return JsonResponse({"Error": "Not enough stock available"})
+                messages.error(request, "Item out of stock :(")
+                return redirect(request.META.get("HTTP_REFERER", "item_detail"))
 
             cart, created = ShoppingCart.objects.get_or_create(user=user)
 
@@ -89,9 +90,8 @@ def add_to_cart(request):
             )
             if not created:
                 if cart_item.quantity + quantity > size.quantity:
-                    return JsonResponse(
-                        {"error": "Not enough stock for this size."}, status=400
-                    )
+                    messages.error(request, "Item out of stock :(")
+                    return redirect(request.META.get("HTTP_REFERER", "item_detail"))
 
                 cart_item.quantity += quantity
                 cart_item.save()
