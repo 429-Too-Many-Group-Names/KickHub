@@ -56,9 +56,11 @@
         <img src="{% static 'images/default_placeholder.png' %}" alt="No image available" class="card-img">
       {% endif %}
       <h3>{{ entry.item.description }}</h3>
+
+      <p><strong>${{ entry.item.price }}</strong></p>
     </a>
 
-    <p><strong>${{ entry.item.price }}</strong></p>
+
 
     <form method="post" action="{% url 'add_to_cart' %}">
       {% csrf_token %}
