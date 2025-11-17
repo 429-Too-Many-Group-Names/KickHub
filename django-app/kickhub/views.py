@@ -119,7 +119,7 @@ def add_to_cart(request):
 
                 cart_item.quantity += quantity
                 cart_item.save()
-                
+
         return JsonResponse({"success": True, "message": "Added to cart!"})
 
 
@@ -214,7 +214,7 @@ def stripe_webhook(request):
                 size = cart_item.size
                 size.quantity = max(0, size.quantity - cart_item.quantity)
                 size.save()
-                
+
             if shipping_address:
                 shipping_address_str = ", ".join(
                     str(shipping_address.get(key, ""))
