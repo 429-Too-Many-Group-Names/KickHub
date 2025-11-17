@@ -8,6 +8,8 @@
 <p>{{ message }}</p>
 <h2>Your Cart</h2>
 
+<h3>Total: ${{ total }}</h3>
+
 <div class="card-container">
   {% for cart_item in cart_items %}
     <div class="card">
@@ -43,6 +45,7 @@
     <li>Your cart is empty.</li>
   {% endfor %}
 </div>
+
 
 {% if cart_items %}
     <form action="{% url 'checkout' %}" method="POST">

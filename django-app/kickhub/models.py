@@ -19,7 +19,7 @@ class Item(models.Model):
     description = models.TextField()
     brand = models.CharField(max_length=100, default="Unknown")
     model = models.CharField(max_length=100, default="Unknown")
-    price = models.FloatField()  # maybe use decimal instead of float
+    price = models.FloatField()
     color = models.CharField(max_length=100, default="Unknown")
     releaseDate = models.DateField(default=date.today)
     image = models.ImageField(upload_to="item_images/", blank=True, null=True)

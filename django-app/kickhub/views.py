@@ -66,7 +66,7 @@ def user_cart(request):
         action = request.POST.get("action")
         cart_item_id = request.POST.get("cart_item_id")
         cart_item = get_object_or_404(CartItem, id=cart_item_id, cart=cart)
-
+        
         if action == "increment":
             if cart_item.quantity < cart_item.size.quantity:
                 cart_item.quantity += 1
@@ -85,9 +85,11 @@ def user_cart(request):
             cart_item.delete()
 
         return redirect(request.path)
-
+    
+    total_value = sum(item.quantity * item.item.price for item in cart_items)
+    
     return render(
-        request, "cart.html", {"user": user, "cart": cart, "cart_items": cart_items}
+        request, "cart.html", {"user": user, "cart": cart, "cart_items": cart_items, "total": total_value}
     )
 
 
