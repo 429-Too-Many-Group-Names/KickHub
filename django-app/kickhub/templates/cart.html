@@ -19,10 +19,25 @@
 
       <h3>{{ cart_item.item.description }}</h3>
       <p><strong>${{ cart_item.item.price }}</strong></p>
-      <p>{{ cart_item.item.quantity }}</p>
+      <p>Quantity: {{ cart_item.quantity }}</p>
+      <p>Size: {{ cart_item.size.size }}</p>
 
-      <!-- Quantity controls 
-      <div style="display:flex;align-items:center;gap:.5rem;margin:.5rem 0;"> -->
+      <!-- Quantity controls -->
+      <form method="POST" style="display:flex; gap:.5rem; align-items:center; margin-top:10px;">
+        {% csrf_token %}
+        <input type="hidden" name="cart_item_id" value="{{ cart_item.id }}">
+
+        <!-- Decrement button -->
+        <button type="submit" name="action" value="decrement">-</button>
+
+        <!-- Increment button -->
+        <button type="submit" name="action" value="increment">+</button>
+
+        <!-- Remove button -->
+        <button type="submit" name="action" value="remove" style="margin-left: 10px;">
+          Remove
+        </button>
+      </form>
     </div>
   {% empty %}
     <li>Your cart is empty.</li>
