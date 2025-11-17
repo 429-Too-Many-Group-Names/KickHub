@@ -257,7 +257,7 @@ This will open a browser window to authorize the CLI. Press Enter to confirm.
 Start the Stripe webhook forwarding to listen for events and forward them to your local Django server:
 
 ```bash
-stripe listen --forward-to localhost:8000/webhooks/stripe/
+stripe listen --forward-to localhost:8000/webhook/stripe/
 ```
 
 **Important:** Copy the webhook signing secret (`whsec_...`) that appears in the terminal and add it to your `.env` file as `STRIPE_WEBHOOK_SECRET`.
@@ -321,13 +321,13 @@ docker compose up --build --watch
 ```bash
 
 # create a superuser (interactive)
-docker exec -it < container_ID or name > python manage.py createsuperuser
+docker exec -it "<container_ID or name>" python manage.py createsuperuser
 
 # load JSON fixtures
 docker exec superuser python manage.py loaddata kickhub/sample_data.json
 
 # open a shell inside the container
-docker exec -it < container name or id > bash
+docker exec -it "<container name or id>" bash
 ```
 
 Notes:

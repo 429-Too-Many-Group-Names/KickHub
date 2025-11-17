@@ -60,9 +60,13 @@
       <p><strong>${{ entry.item.price|floatformat:2 }}</strong></p>
     </a>
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> 8006809659c47873eda62bf1e05c64e58096daa4
 
 
-    <form method="post" action="{% url 'add_to_cart' %}">
+    <form class="add-to-cart-form" method="post" action="{% url 'add_to_cart' %}">
       {% csrf_token %}
       <input type="hidden" name="item_id" value="{{ entry.item.id }}">
 
@@ -153,10 +157,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // Initial run (covers pre-filled ?q=... in URL)
   applyFilters();
 });
-</script>
 
-
-<script>
 function showToast(message, duration=3000) {
     const container = document.getElementById("toast-container");
     if (!container) return;

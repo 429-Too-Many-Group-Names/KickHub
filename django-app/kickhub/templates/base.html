@@ -28,7 +28,7 @@
                 <li><a href="{% provider_login_url 'google' %}" class="nav-button logout-button">Login</a></li>
                 {% endif %}
             </ul>
-            <div id="toast-container"></div>
+            <div id="toast" class="toast">Item added to cart!</div>
         </nav>
         <hr>
     
@@ -77,31 +77,45 @@
   input.addEventListener('input', () => filterCards(input.value));
   if (input.value) filterCards(input.value);
 })();
-</script>
 
-<script>
-function showToast(message, duration=3000) {
-    const container = document.getElementById("toast-container");
-    if (!container) return;
-
-    const toast = document.createElement("div");
-    toast.className = "toast";
-    toast.textContent = message;
-    container.appendChild(toast);
-
-    setTimeout(() => toast.classList.add("show"), 50);
-    setTimeout(() => {
-        toast.classList.remove("show");
-        setTimeout(() => container.removeChild(toast), 300);
-    }, duration);
+function showToast(message) {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.classList.add("show");
+  
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 3000); // hides after 3 seconds
 }
 
-// Display Django messages
-{% if messages %}
-    {% for message in messages %}
-        showToast("{{ message }}");
-    {% endfor %}
-{% endif %}
+document.querySelectorAll('.add-to-cart-form').forEach(form => {
+  form.addEventListener('submit', function(e) {
+    e.preventDefault(); // stop page reload
+
+    const formData = new FormData(this);
+
+    fetch(this.action, {
+      method: 'POST',
+      headers: {
+        'X-CSRFToken': formData.get('csrfmiddlewaretoken'),
+      },
+      body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        showToast(data.message || "Item added to cart!");
+      } else if (data.error) {
+        showToast(data.error || "Error adding item.");
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      showToast("Something went wrong.");
+    });
+  });
+});
+
 </script>
 
 {% endblock %}

@@ -77,6 +77,9 @@ class ShoppingCart(models.Model):
     discount_code = models.CharField(max_length=50, blank=True, null=True)
     checked_out = models.BooleanField(default=False)
 
+# class DiscountCode(models.Model):
+    
+
 
 class CartItem(models.Model):
     cart = models.ForeignKey(
@@ -100,7 +103,8 @@ class Order(models.Model):
     shipping_address = models.TextField(blank=True, null=True)
     stripe_checkout_session_id = models.CharField(
         max_length=255, blank=True, null=True
-    ) 
+    )
+    order_created_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"Order {self.id} by {self.user.username}"

@@ -26,7 +26,7 @@
     <p style="font-size:1.25rem; font-weight:700; margin:.75rem 0;">{{ item.price_display }}</p>
 
     {% if available_sizes %}
-      <form method="post" action="{% url 'add_to_cart' %}" style="display:grid; gap:.75rem; max-width:320px;">
+      <form class="add-to-cart-form" method="post" action="{% url 'add_to_cart' %}" style="display:grid; gap:.75rem; max-width:320px;">
         {% csrf_token %}
         <input type="hidden" name="item_id" value="{{ item.id }}">
 
