@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load tz %}
 
 {% block title %}Order #{{ order.id }}{% endblock %}
 
@@ -7,7 +8,8 @@
 <p>Status: {{ order.status }}</p>
 <p>Total Amount: ${{ order.total_amount }}</p>
 <p>Shipping Address: {{ shipping_address }}</p>
-<p>Order Date: {{ order.created_at }}</p>
+<p>Order Date: {{ order.order_created_at}}</p>
+
 
 <h3>Items in this Order:</h3>
 <div>

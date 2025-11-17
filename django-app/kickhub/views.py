@@ -19,7 +19,7 @@ from django.shortcuts import get_object_or_404
 import stripe
 import os
 from django.conf import settings
-import datetime
+import time
 
 # Create your views here.
 
@@ -121,14 +121,6 @@ def add_to_cart(request):
                 cart_item.save()
                 
         return JsonResponse({"success": True, "message": "Added to cart!"})
-    
-
-    # if request.headers.get("x-requested-with") == "XMLHttpRequest":
-    #     return JsonResponse({"success": True, "message": "Added to cart!"})
-    #     # return redirect(request.META.get("HTTP_REFERER", "index"))
-    # else:
-    #     messages.success(request, "Item added to cart!")
-    #     return redirect(request.META.get("HTTP_REFERER", "item_detail"))
 
 
 class ItemDetailView(DetailView):
@@ -184,7 +176,7 @@ def create_checkout_session(request):
             mode="payment",
             success_url="http://localhost:8000/",
             cancel_url="http://localhost:8000/cart",
-            metadata={"user_id": user.id, "order_id": 123},
+            metadata={"user_id": user.id, "create_at": int(time.time())},
             automatic_tax={"enabled": True},
         )
 

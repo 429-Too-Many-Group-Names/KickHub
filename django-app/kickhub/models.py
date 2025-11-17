@@ -103,7 +103,8 @@ class Order(models.Model):
     shipping_address = models.TextField(blank=True, null=True)
     stripe_checkout_session_id = models.CharField(
         max_length=255, blank=True, null=True
-    ) 
+    )
+    order_created_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"Order {self.id} by {self.user.username}"
