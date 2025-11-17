@@ -62,6 +62,30 @@ def user_cart(request):
     cart, created = ShoppingCart.objects.get_or_create(user=user)
     cart_items = CartItem.objects.filter(cart=cart)
 
+    if request.method == "POST":
+        action = request.POST.get("action")
+        cart_item_id = request.POST.get("cart_item_id")
+        cart_item = get_object_or_404(CartItem, id=cart_item_id, cart=cart)
+
+        if action == "increment":
+            if cart_item.quantity < cart_item.size.quantity:
+                cart_item.quantity += 1
+                cart_item.save()
+            else:
+                messages.warning(request, "Not enough stock available.")
+
+        elif action == "decrement":
+            if cart_item.quantity > 1:
+                cart_item.quantity -= 1
+                cart_item.save()
+            else:
+                cart_item.delete()
+
+        elif action == "remove":
+            cart_item.delete()
+
+        return redirect(request.path)
+
     return render(
         request, "cart.html", {"user": user, "cart": cart, "cart_items": cart_items}
     )
