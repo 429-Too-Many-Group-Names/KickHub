@@ -121,6 +121,7 @@ def add_to_cart(request):
                 cart_item.save()
 
         return JsonResponse({"success": True, "message": "Added to cart!"})
+    
 
 
 class ItemDetailView(DetailView):
