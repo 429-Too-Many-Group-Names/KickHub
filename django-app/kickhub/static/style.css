@@ -163,6 +163,37 @@ body {
     border-radius: 10px;
     box-shadow: 0 0 8px rgba(0,0,0,0.2);
     transition: transform 0.3s;
+    position: relative;
+    cursor: pointer;
+    min-height: 330px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card a {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1; /* Puts the link below the form/text */
+}
+
+.card form,
+.card h3,
+.card span {
+  position: relative; /* Must be positioned to use z-index effectively */
+  z-index: 2;       /* Puts these elements above the stretched link */
+}
+
+.card form { 
+    z-index: 3; /* You may want to give the form a slightly higher z-index to be safe */
+    margin-top: auto;
+}
+
+.card a:hover {
+    text-decoration: none;
 }
 
 .card img {
