@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-  document.querySelectorAll('form.add-to-cart-form').forEach(function(form) {
+  document.querySelectorAll('.add-to-cart-form').forEach(function(form) {
     form.addEventListener('submit', function(e) {
       e.preventDefault();
       const formData = new FormData(form);
@@ -14,11 +14,12 @@ document.addEventListener('DOMContentLoaded', function() {
       .then(response => response.json())
       .then(data => {
         if (data.success) {
-          console.log(data.message); // Or update the cart count, etc.
+          console.log(data.message);
         }
       });
     });
   });
 });
 
-console.log("here")
+console.log('https://github.com/429-Too-Many-Group-Names/KickHub')
+console.log("Binary Bandits")

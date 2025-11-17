@@ -95,13 +95,16 @@ def add_to_cart(request):
 
                 cart_item.quantity += quantity
                 cart_item.save()
-
-    if request.headers.get("x-requested-with") == "XMLHttpRequest":
+                
         return JsonResponse({"success": True, "message": "Added to cart!"})
-        # return redirect(request.META.get("HTTP_REFERER", "index"))
-    else:
-        messages.success(request, "Item added to cart!")
-        return redirect(request.META.get("HTTP_REFERER", "item_detail"))
+    
+
+    # if request.headers.get("x-requested-with") == "XMLHttpRequest":
+    #     return JsonResponse({"success": True, "message": "Added to cart!"})
+    #     # return redirect(request.META.get("HTTP_REFERER", "index"))
+    # else:
+    #     messages.success(request, "Item added to cart!")
+    #     return redirect(request.META.get("HTTP_REFERER", "item_detail"))
 
 
 class ItemDetailView(DetailView):
@@ -126,7 +129,7 @@ def create_checkout_session(request):
 
     user_cart = ShoppingCart.objects.get(user=user)
 
-    cart_items = CartItem.objects.filter(cart=user_cart)  # Change this line
+    cart_items = CartItem.objects.filter(cart=user_cart)
 
     line_items_list = []
 
@@ -195,7 +198,7 @@ def stripe_webhook(request):
                 size = cart_item.size
                 size.quantity = max(0, size.quantity - cart_item.quantity)
                 size.save()
-            # Convert address dict to string for saving (simple example)
+                
             if shipping_address:
                 shipping_address_str = ", ".join(
                     str(shipping_address.get(key, ""))

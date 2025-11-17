@@ -77,6 +77,9 @@ class ShoppingCart(models.Model):
     discount_code = models.CharField(max_length=50, blank=True, null=True)
     checked_out = models.BooleanField(default=False)
 
+# class DiscountCode(models.Model):
+    
+
 
 class CartItem(models.Model):
     cart = models.ForeignKey(

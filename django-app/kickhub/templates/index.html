@@ -60,7 +60,7 @@
 
     <p><strong>${{ entry.item.price }}</strong></p>
 
-    <form method="post" action="{% url 'add_to_cart' %}">
+    <form class="add-to-cart-form" method="post" action="{% url 'add_to_cart' %}">
       {% csrf_token %}
       <input type="hidden" name="item_id" value="{{ entry.item.id }}">
 
