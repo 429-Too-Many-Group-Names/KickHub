@@ -59,13 +59,6 @@
 
       <p><strong>${{ entry.item.price|floatformat:2 }}</strong></p>
     </a>
-
-      <p><strong>${{ entry.item.price }}</strong></p>
-    </a>
-
-
-
-
     <form class="add-to-cart-form" method="post" action="{% url 'add_to_cart' %}">
       {% csrf_token %}
       <input type="hidden" name="item_id" value="{{ entry.item.id }}">
