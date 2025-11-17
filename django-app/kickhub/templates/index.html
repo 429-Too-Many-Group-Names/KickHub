@@ -55,10 +55,12 @@
       {% else %}
         <img src="{% static 'images/default_placeholder.png' %}" alt="No image available" class="card-img">
       {% endif %}
-      <h3>{{ entry.item.description }}</h3>
+      <h3>{{ entry.item.brand }} {{ entry.item.model }}</h3>
+
+      <p><strong>${{ entry.item.price|floatformat:2 }}</strong></p>
     </a>
 
-    <p><strong>${{ entry.item.price }}</strong></p>
+
 
     <form method="post" action="{% url 'add_to_cart' %}">
       {% csrf_token %}
