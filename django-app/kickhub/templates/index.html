@@ -49,7 +49,7 @@
     data-in-stock="{% if entry.sizes %}1{% else %}0{% endif %}"
   >
     <!-- Clickable link to the detail page -->
-    <a href="{% url 'item_detail' entry.item.slug %}">
+    <a class="text-decoration" href="{% url 'item_detail' entry.item.slug %}">
       {% if entry.item.image %}
         <img src="{{ entry.item.image.url }}" alt="{{ entry.item.name }}" class="card-img">
       {% else %}

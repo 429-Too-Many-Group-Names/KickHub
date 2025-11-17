@@ -7,17 +7,19 @@
 <p>Welcome, {{ user.first_name }} {{ user.last_name }} ({{ user.email }})!</p>
 
 
+<div class="flexing">
+    {% for order in orders %}
+    <a class="text-decoration" href="{% url 'order_items' order.id %}">
+        <div class="profile-card">
+            <h3>Order {{ order.id }}</h3>
+            <p>${{order.total_amount}}</p>
+        </div>
+    </a>
+    {% empty %}
+    <p>No orders found.</p>
+    {% endfor %}
+</div>
 
-{% for order in orders %}
-<a href="{% url 'order_items' order.id %}" style="text-decoration: none; color: inherit;">
-    <div class="card" style="border:1px solid #ccc; padding:16px; margin:8px 0; border-radius:8px;">
-        <h3>Order {{ order.id }}</h3>
-        <p>${{order.total_amount}}</p>
-    </div>
-</a>
-{% empty %}
-<p>No orders found.</p>
-{% endfor %}
 
 
 

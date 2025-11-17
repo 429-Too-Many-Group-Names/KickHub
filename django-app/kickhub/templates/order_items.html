@@ -12,16 +12,20 @@
 
 
 <h3>Items in this Order:</h3>
-<div>
+<div class="flexing">
     {% for item in order_items %}
-    <div class="card-container">
-        <div class="card">
-            <strong>{{ item.item.name }}</strong> <br>
-            Size: {{ item.size.size }} <br>
-            Qty: {{ item.quantity }} <br>
-            Price: ${{ item.price }}
+    <a class="text-decoration" href=" {% url 'item_detail' item.item.slug %}">
+        <div class="card-container">
+            <div class="card">
+                <strong>{{ item.item.name }}</strong> <br>
+                Size: {{ item.size.size }} <br>
+                <img src="{{ item.item.image.url }}">
+                Qty: {{ item.quantity }} <br>
+                Price: ${{ item.price }}
+            </div>
         </div>
-    </div>
+    </a>
+
 
     {% empty %}
     <p>No items in this order.</p>

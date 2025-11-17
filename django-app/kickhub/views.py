@@ -48,7 +48,7 @@ def profile(request):
     if not request.user.is_authenticated:
         return redirect("index")
     
-    orders = Order.objects.filter(user=user)
+    orders = Order.objects.filter(user=user).order_by('-order_date')
     
     
     return render(request, "user-profile.html", {"user": user, "orders": orders,})
@@ -181,6 +181,7 @@ def create_checkout_session(request):
             cancel_url="http://localhost:8000/cart",
             metadata={"user_id": user.id, "create_at": int(time.time())},
             automatic_tax={"enabled": True},
+            allow_promotion_codes=True
         )
 
         return redirect(checkout_session.url, code=303)

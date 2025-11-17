@@ -9,6 +9,21 @@ body {
     font-family: sans-serif;
 }
 
+.flexing {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.text-decoration {
+    text-decoration: none; 
+    color: inherit;
+}
+
+.profile-card {
+    border:1px solid #ccc; padding:16px; margin:8px 0; border-radius:8px;
+}
+
 .center-rectangle {
     width: 80%;
     background-color: white;
