@@ -48,7 +48,7 @@
 
 
 {% if cart_items %}
-    <form action="{% url 'checkout' %}" method="POST">
+    <form style="display: flex; justify-content: center;" action="{% url 'checkout' %}" method="POST">
   {% csrf_token %}
   
   <button type="submit" id="checkout-button">
