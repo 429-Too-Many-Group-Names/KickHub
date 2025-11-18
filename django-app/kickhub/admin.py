@@ -54,28 +54,6 @@ class DiscountAdmin(admin.ModelAdmin):
 
             raise ValidationError(f"Stripe error: {e}")
 
-
-class DiscountAdmin(admin.ModelAdmin):
-    # ...existing code...
-    actions = ["deactivate_promo_code"]
-
-    def deactivate_promo_code(self, request, queryset):
-        for obj in queryset:
-            if obj.stripe_promo_id:
-                try:
-                    stripe.PromotionCode.update(
-                        obj.stripe_promo_id,
-                        active=False,
-                    )
-                    self.message_user(request, f"Promo code {obj.code} deactivated.")
-                except Exception as e:
-                    self.message_user(
-                        request, f"Error deactivating {obj.code}: {e}", level="error"
-                    )
-
-    deactivate_promo_code.short_description = "Deactivate selected Stripe promo codes"
-
-
 admin.site.register(CustomUser)
 admin.site.register(Sizes)
 admin.site.register(Item)
