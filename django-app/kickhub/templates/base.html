@@ -17,7 +17,6 @@
         <nav class="navbar">
             <ul class="nav-links">
                 <li><a href="{% url 'index' %}" class="site-name">KickHub</a></li>
-                <li><a href="{% url 'index' %}" class="nav-button">Home</a></li>
                 {% if user.is_authenticated %}
                 <li><a href="{% url 'profile' %}" class="nav-button">Profile</a></li>
                 <li><a href="{% url 'cart' %}" class="nav-button">Cart</a></li>

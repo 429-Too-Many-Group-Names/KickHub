@@ -27,7 +27,6 @@ body {
 .center-rectangle {
     width: 80%;
     background-color: white;
-    text-align: center;
     padding: 20px;
     border-radius: 15px;
     box-sizing: border-box;

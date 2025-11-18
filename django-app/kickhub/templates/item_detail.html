@@ -4,9 +4,9 @@
 {% block title %}{{ item.name }} | KickHub{% endblock %}
 
 {% block content %}
-<nav style="margin:1rem 0;">
-  <a href="{% url 'index' %}">← Back to Catalog</a>
-</nav>
+<p style="text-align: left; margin:1rem 0;">
+  <a class="text-decoration" href="{% url 'index' %}">← Back to Catalog</a>
+</p>
 
 <section style="display:grid; gap:2rem; grid-template-columns:1fr 1fr;">
   <!-- Product Image -->
