@@ -3,7 +3,13 @@ from django.contrib.auth.models import AbstractUser
 from django.utils.text import slugify
 from django.urls import reverse
 from datetime import date
+from django.conf import settings
+import stripe
+from django.core.exceptions import ValidationError
+from django.db import transaction
 
+stripe.api_key = settings.STRIPE_SECRET_KEY
+endpoint_secret = settings.STRIPE_ENDPOINT_SECRET
 
 class CustomUser(AbstractUser):
     username = models.CharField(max_length=100)
@@ -77,7 +83,6 @@ class ShoppingCart(models.Model):
     discount_code = models.CharField(max_length=50, blank=True, null=True)
     checked_out = models.BooleanField(default=False)
 
-# class DiscountCode(models.Model):
     
 
 
@@ -121,3 +126,10 @@ class OrderItem(models.Model):
 
     class Meta:
         unique_together = ("order", "item", "size")
+        
+class Discount(models.Model):
+    code = models.CharField(max_length=50, unique=True, help_text="The customer-facing code (e.g., WELCOME10)")
+    percent_off = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    is_active = models.BooleanField(default=True, help_text="Controls if this code is active in Stripe")
+    stripe_coupon_id = models.CharField(max_length=255, blank=True, editable=False)
+    stripe_promo_id = models.CharField(max_length=255, blank=True, editable=False)

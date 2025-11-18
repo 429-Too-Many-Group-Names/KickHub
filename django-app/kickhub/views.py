@@ -17,7 +17,6 @@ from django.http import JsonResponse
 from django.views.generic import DetailView
 from django.shortcuts import get_object_or_404
 import stripe
-import os
 from django.conf import settings
 import time
 
@@ -153,7 +152,6 @@ def create_checkout_session(request):
     line_items_list = []
 
     for item in cart_items:
-        # print(item.quantity)
         line_items_list.append(
             {
                 "price_data": {
@@ -161,10 +159,9 @@ def create_checkout_session(request):
                     "unit_amount": int(item.item.price * 100),
                     "product_data": {
                         "name": f"{item.item.name} - Size {item.size.size}",
-                        # 'images': [item.item.image.url] if item.item.image else [],
                     },
                 },
-                "quantity": item.quantity,  # Move quantity outside of price_data
+                "quantity": item.quantity,
             }
         )
 
