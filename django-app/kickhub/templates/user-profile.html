@@ -11,7 +11,7 @@
 <div class="flexing">
     {% for order in orders %}
     <a class="text-decoration" href="{% url 'order_items' order.id %}">
-        <div class="profile-card">
+        <div style="margin: 10px;" class="profile-card">
             <h3>Order {{ order.id }}</h3>
             <p>${{order.total_amount}}</p>
         </div>
