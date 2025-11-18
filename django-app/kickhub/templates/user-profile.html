@@ -6,6 +6,7 @@
 {% if user.is_authenticated %}
 <p>Welcome, {{ user.first_name }}</p>
 
+<h2>Orders:</h2>
 
 <div class="flexing">
     {% for order in orders %}
